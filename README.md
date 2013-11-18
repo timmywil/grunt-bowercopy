@@ -1,6 +1,14 @@
 # grunt-bowercopy
 
-> Manage file locations for each individual bower dependency.
+> Wrangle those bower dependencies and place each one where it's supposed to be.
+
+- Consistently positions your dependencies where you want them in your repository.
+- Conveniently facilitates [tracking your dependencies](http://addyosmani.com/blog/checking-in-front-end-dependencies/) without committing the entire Bower components folder.
+- Has the potential to reduce build times dramatically. For instance, if you were building a particular source folder for your webapp or website (compiling, concatenating, and minifying JavaScript and CSS), you were forced to include the entire `bower_components` directory in your build to make it work. This plugin clears the detritus.
+
+## How This Changes Your Workflow
+
+Whenever you add a new bower dependency, add which file should be copied and where to your Gruntfile `"bowercopy"` config. Then, run `grunt bowercopy`.
 
 ## Getting Started
 This plugin requires Grunt.
@@ -17,6 +25,8 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-bowercopy');
 ```
 
+*Note: have a look at [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) so you can skip this step for all your grunt plugins.*
+
 ## The "bowercopy" task
 
 ### Overview
@@ -24,66 +34,72 @@ In your project's Gruntfile, add a section named `bowercopy` to the data object 
 
 ```js
 grunt.initConfig({
-  bowercopy: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+	bowercopy: {
+		options: {
+			// Task-specific options go here.
+		},
+		your_target: {
+			// Target-specific file lists and/or options go here.
+		},
+	},
 })
 ```
 
 ### Options
 
-#### options.separator
+#### options.srcPrefix
 Type: `String`
-Default value: `',  '`
+Default value: The `directory` property value in your `.bowerrc` or `'bower_components'` if the `.bowerrc` cannot be found.
 
-A string value that is used to do something with whatever.
+`srcPrefix` will prefix your source locations with the correct bower folder location.
 
-#### options.punctuation
+#### options.destPrefix
 Type: `String`
-Default value: `'.'`
+Default value: `'js'`
 
-A string value that is used to do something else with whatever else.
+`destPrefix` will be used as the prefix for destinations.
+
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
 ```js
 grunt.initConfig({
-  bowercopy: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
+	bowercopy: {
+		options: {
+			destPrefix: 'website/public/js'
+		},
+		// Keys are sources (prefixed with `options.srcPrefix`);
+		// values are destinations (prefixed with `options.destPrefix`)
+		testFiles: {
+			'chai/lib/chai.js': 'libs/expect.js',
+			'mocha/mocha.js': 'libs/mocha/mocha.js',
+			'mocha/mocha.css': 'libs/mocha/mocha.css'
+		},
+		// Anything can be copied
+		website: {
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+			// Javascript
+			// Copies 'bower_components/jquery/jquery.js' to 'website/public/js/libs/jquery.js'
+			'jquery/jquery.js': 'libs/jquery.js',
+			'lodash/dist/lodash.js': 'libs/lodash.js',
+			'requirejs/require.js': 'libs/require.js',
 
-```js
-grunt.initConfig({
-  bowercopy: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
+			// Make dependencies follow your naming conventions
+			'chosen/public/chosen.js': 'plugins/jquery.chosen.js',
+
+			// Less
+			'bootstrap/less/dropdowns.less': '../../less/dropdowns.less',
+
+			// Images
+			'chosen/public/chosen-sprite.png': '../images/account/chosen-sprite.png',
+			'chosen/public/chosen-sprite@2x.png': '../images/account/chosen-sprite@2x.png'
+		}
+	}
+});
 ```
 
 ## Contributing
-Basically, follow the same code style and add tests for any functionality change or bug fix.
+Follow the same coding style present in the repo and add tests for any bug fix or feature addition.
 
 See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/master/CONTRIBUTING.md) for more info.
 

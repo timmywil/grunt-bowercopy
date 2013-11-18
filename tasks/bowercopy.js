@@ -1,6 +1,5 @@
 /*
  * grunt-bowercopy
- * 
  *
  * Copyright (c) 2013 Timmy Willison
  * Licensed under the MIT license.
@@ -10,42 +9,56 @@
 
 module.exports = function (grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+	// Logging
+	var log = grunt.log,
+		verbose = grunt.verbose;
 
-  grunt.registerMultiTask('bowercopy', 'Manage file locations for each individual bower dependency.', function () {
+	// Node modules
+	var fs = require('fs'),
+		path = require('path');
 
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+	// Regex
+	var rfolder = /\/[^\/]+$/;
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function (file) {
-      // Concat specified files.
-      var src = file.src.filter(function (filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function (filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+	grunt.registerMultiTask(
+		'bowercopy',
+		'Copy only the needed files from bower components over to their specified file locations',
+		function() {
+			// Require an object in data
+			if (!Object.keys(this.data).length) {
+				log.warn('Bowercopy is not configured to copy anything');
+				return;
+			}
 
-      // Handle options.
-      src += options.punctuation;
+			// Options
+			var options = this.options({
+				srcPrefix: 'bower_components',
+				destPrefix: 'js'
+			});
 
-      // Write the destination file.
-      grunt.file.write(file.dest, src);
+			verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
+			verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
-      // Print a success message.
-      grunt.log.writeln('File "' + file.dest + '" created.');
-    });
-  });
+			_.forOwn(this.data, function(dest, src) {
+				// Prefix sources with the srcPath
+				src = path.join(options.srcPrefix, src);
+				dest = path.join(options.destPrefix, dest);
 
+				var folder = dest.replace(rfolder, '');
+
+				// Allow mkdir failures
+				try {
+					fs.mkdirSync(folder, 0755);
+					verbose.writeln('Folder created: ' + folder);
+				} catch( e ) {
+					verbose.writeln('Folder already present: ' + folder);
+				}
+
+				// Copy
+				fs.writeFileSync( dest, fs.readFileSync( src ) );
+				log.writeln(src + ' -> ' + dest);
+			});
+			log.ok('Bower components copied to specified directories');
+		}
+	);
 };
