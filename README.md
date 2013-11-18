@@ -1,4 +1,4 @@
-# grunt-bowercopy
+# grunt-bowercopy (not yet released)
 
 > Wrangle those bower dependencies and place each one where it's supposed to be.
 
