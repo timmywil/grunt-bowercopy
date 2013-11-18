@@ -68,18 +68,20 @@ grunt.initConfig({
 		options: {
 			destPrefix: 'website/public/js'
 		},
+
 		// Keys are sources (prefixed with `options.srcPrefix`);
 		// values are destinations (prefixed with `options.destPrefix`)
+		// e.g. 'bower_components/chai/lib/chai.js' will be copied to 'website/public/js/libs/chai.js'
 		testFiles: {
-			'chai/lib/chai.js': 'libs/expect.js',
+			'chai/lib/chai.js': 'libs/chai.js',
 			'mocha/mocha.js': 'libs/mocha/mocha.js',
 			'mocha/mocha.css': 'libs/mocha/mocha.css'
 		},
+
 		// Anything can be copied
 		website: {
 
 			// Javascript
-			// Copies 'bower_components/jquery/jquery.js' to 'website/public/js/libs/jquery.js'
 			'jquery/jquery.js': 'libs/jquery.js',
 			'lodash/dist/lodash.js': 'libs/lodash.js',
 			'requirejs/require.js': 'libs/require.js',
