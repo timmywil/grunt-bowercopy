@@ -28,16 +28,22 @@ module.exports = function (grunt) {
 	grunt.registerMultiTask(
 		'bowercopy',
 		'Copy only the needed files from bower components over to their specified file locations',
-		function() {
+		function bowercopy() {
 			// Require an object in data
 			if (!Object.keys(this.data).length) {
 				warn('Bowercopy is not configured to copy anything');
 				return;
 			}
 
+			// The file's presence is not required
+			var srcPrefix;
+			try {
+				srcPrefix = (grunt.file.readJSON('.bowerrc') || {}).directory;
+			} catch(e) {}
+
 			// Options
 			var options = this.options({
-				srcPrefix: 'bower_components',
+				srcPrefix: srcPrefix || 'bower_components',
 				destPrefix: 'js'
 			});
 
