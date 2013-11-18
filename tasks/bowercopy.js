@@ -11,7 +11,12 @@ module.exports = function (grunt) {
 
 	// Logging
 	var log = grunt.log,
-		verbose = grunt.verbose;
+		verbose = grunt.verbose,
+		warn = grunt.warn,
+		fatal = grunt.fatal;
+
+	// Utilities
+	var _ = grunt.util._;
 
 	// Node modules
 	var fs = require('fs'),
@@ -26,7 +31,7 @@ module.exports = function (grunt) {
 		function() {
 			// Require an object in data
 			if (!Object.keys(this.data).length) {
-				log.warn('Bowercopy is not configured to copy anything');
+				warn('Bowercopy is not configured to copy anything');
 				return;
 			}
 
@@ -40,6 +45,16 @@ module.exports = function (grunt) {
 			verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
 			_.forOwn(this.data, function(dest, src) {
+				// Type checking
+				if ( typeof dest !== 'string' ) {
+					fatal('Destination must be a string: ' + JSON.stringify(dest) || dest);
+					return;
+				}
+				if ( typeof dest !== 'string' ) {
+					fatal('Source must be a string: ' + JSON.stringify(src) || src);
+					return;
+				}
+
 				// Prefix sources with the srcPath
 				src = path.join(options.srcPrefix, src);
 				dest = path.join(options.destPrefix, dest);
@@ -48,7 +63,7 @@ module.exports = function (grunt) {
 
 				// Allow mkdir failures
 				try {
-					fs.mkdirSync(folder, 0755);
+					fs.mkdirSync(folder, 755);
 					verbose.writeln('Folder created: ' + folder);
 				} catch( e ) {
 					verbose.writeln('Folder already present: ' + folder);
