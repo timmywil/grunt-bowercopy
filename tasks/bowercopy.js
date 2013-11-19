@@ -5,9 +5,8 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
-
 module.exports = function (grunt) {
+	'use strict';
 
 	// Logging
 	var log = grunt.log,
@@ -32,10 +31,22 @@ module.exports = function (grunt) {
 	var unused = allModules.slice(0);
 
 	// Track number of runs
+	var numTargets;
 	var numRuns = 0;
-	var numTargets = grunt.config('bowercopy');
-	delete numTargets.options;
-	numTargets = Object.keys(numTargets).length;
+
+	/**
+	 * Retrieve the number of targets from the grunt config
+	 */
+	function getNumTargets() {
+		if (numTargets) {
+			return numTargets;
+		}
+		var targets = grunt.config('bowercopy');
+		if (targets) {
+			delete targets.options;
+			numTargets = Object.keys(targets).length;
+		}
+	}
 
 	/**
 	 * Filter out all of the modules represented in the filesSrc array
@@ -63,7 +74,7 @@ module.exports = function (grunt) {
 		unused = filterRepresented(unused, filesSrc);
 
 		// Only print message when all targets have been run
-		if (++numRuns === numTargets) {
+		if (++numRuns === getNumTargets()) {
 			if (unused.length) {
 				log.error('Some bower components are not configured: ', unused);
 			} else {
