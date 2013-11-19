@@ -39,13 +39,13 @@ In your project's Gruntfile, add a section named `bowercopy` to the data object 
 grunt.initConfig({
 	bowercopy: {
 		options: {
-			// Task-specific options go here.
+			// Task-specific options go here
 		},
 		your_target: {
-			// Target-specific file lists and/or options go here.
-		},
-	},
-})
+			// Target-specific file lists and/or options go here
+		}
+	}
+});
 ```
 
 ### Options
