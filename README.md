@@ -51,19 +51,19 @@ grunt.initConfig({
 ### Options
 
 #### options.srcPrefix
-Type: `String`
+Type: `String`  
 Default value: The `directory` property value in your `.bowerrc` or `'bower_components'` if the `.bowerrc` cannot be found.
 
 `srcPrefix` will prefix your source locations with the correct bower folder location.
 
 #### options.destPrefix
-Type: `String`
+Type: `String`  
 Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
 
 #### options.runbower
-Type: `Boolean`
+Type: `Boolean`  
 Default value: `true`
 
 Run `bower install` in conjunction with the `bowercopy` task.

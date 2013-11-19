@@ -14,17 +14,71 @@ module.exports = function (grunt) {
 		verbose = grunt.verbose,
 		fatal = grunt.fatal;
 
+	// Utilities
+	var _ = grunt.util._;
+
 	// Modules
 	var path = require('path'),
 		spawn = require('child_process').spawn;
+
+	// Get all modules
+	var bowerConfig;
+	try {
+		bowerConfig = grunt.file.readJSON('bower.json');
+	} catch(e) {
+		return true;
+	}
+	var allModules = Object.keys(_.extend({}, bowerConfig.dependencies, bowerConfig.devDependencies));
+	var unused = allModules.slice(0);
+
+	// Track number of runs
+	var numRuns = 0;
+	var numTargets = grunt.config('bowercopy');
+	delete numTargets.options;
+	numTargets = Object.keys(numTargets).length;
+
+	/**
+	 * Filter out all of the modules represented in the filesSrc array
+	 * @param {Array} modules
+	 * @param {Array} filesSrc
+	 */
+	function filterRepresented(modules, filesSrc) {
+		return _.filter(modules, function(module) {
+			return !_.some(filesSrc, function(src) {
+				return path.join('/', src, '/').indexOf('/' + module + '/') > -1;
+			});
+		});
+	}
+
+	/**
+	 * Ensure all bower dependencies are accounted for
+	 * @param {Object} files Files property from the task
+	 * @returns {boolean} Returns whether all dependencies are accounted for
+	 */
+	function ensure(files) {
+		// We need the originals, which grunt's filesSrc does not give us if the files are not present yet
+		var filesSrc = _.map(files, function(file) { return file.orig.src[0] || file.orig.dest; });
+
+		// Update the global array of represented modules
+		unused = filterRepresented(unused, filesSrc);
+
+		// Only print message when all targets have been run
+		if (++numRuns === numTargets) {
+			if (unused.length) {
+				log.error('Some bower components are not configured: ', unused);
+			} else {
+				log.ok('All modules accounted for');
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * Copy over specified component files from the bower directory
 	 * @param {Object} files
 	 * @param {Object} options
 	 */
-	function copy( files, options ) {
-
+	function copy(files, options) {
 		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
 		verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
@@ -43,6 +97,9 @@ module.exports = function (grunt) {
 			log.writeln(src + ' -> ' + dest);
 		});
 		log.ok('Bower components copied to specified directories');
+
+		// Report if any dependencies have not been copied
+		ensure(files);
 	}
 
 	grunt.registerMultiTask(
@@ -65,19 +122,19 @@ module.exports = function (grunt) {
 			});
 
 			// Run `bower install` regardless
-			if ( options.runbower ) {
+			if (options.runbower) {
 				var done = this.async();
 				var install = spawn('bower', [ 'install' ], { stdio: 'inherit' });
-				install.on('close', function( code ) {
-					if ( code !== 0 ) {
+				install.on('close', function(code) {
+					if (code !== 0) {
 						fatal('Bower install process exited with code ' + code);
 						return;
 					}
-					copy( files, options );
+					copy(files, options);
 					done();
 				});
 			} else {
-				copy( files, options );
+				copy(files, options);
 			}
 		}
 	);

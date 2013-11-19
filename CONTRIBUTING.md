@@ -4,6 +4,7 @@ Follow the [jQuery style guide](http://contribute.jquery.org/style-guide/js/), w
 
 - Use single quotes
 - Multiple var statements can be used to group variable declarations logically
+- Liberal spacing between parenthesis need not be used
 - Use [jsdoc-style](http://usejsdoc.org/#JSDoc3_Tag_Dictionary) comments for functions
 
 Add tests to test/bowercopy_test.js. See the [nodeunit README](https://github.com/caolan/nodeunit) for documentation.
