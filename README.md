@@ -10,7 +10,7 @@
 
 Whenever you add a new bower dependency, add which file should be copied and where to your Gruntfile `"bowercopy"` config. Then, run `grunt bowercopy`.
 
-You can configure bowercopy to run `bower install` for you (see the `runbower` option). However, your bower directory is not removed so you can see which files you need from each component.
+By default, bowercopy runs `bower install` for you (turn this off with the `runbower` option). Your bower directory is not removed so you can see which files you need from each component.
 It is suggested that you add the bower directory to your `.gitignore`.
 
 ## Getting Started
@@ -90,26 +90,45 @@ grunt.initConfig({
 		},
 
 		// Anything can be copied
-		website: {
+		libs: {
 			options: {
-				destPrefix: 'public/js'
+				destPrefix: 'public/js/libs'
 			},
 			files: {
-
-				// Javascript
-				'libs/jquery.js': 'jquery/jquery.js',
-				'libs/lodash.js': 'lodash/dist/lodash.js',
-				'libs/require.js': 'requirejs/require.js',
-
+				'jquery.js': 'jquery/jquery.js',
+				'lodash.js': 'lodash/dist/lodash.js',
+				'require.js': 'requirejs/require.js'
+			},
+		},
+		plugins: {
+			options: {
+				destPrefix: 'public/js/plugins'
+			},
+			files: {
 				// Make dependencies follow your naming conventions
-				'plugins/jquery.chosen.js': 'chosen/public/chosen.js',
-
-				// Less
-				'../../less/dropdowns.less': 'bootstrap/less/dropdowns.less',
-
-				// Images
-				'../images/account/chosen-sprite.png': 'chosen/public/chosen-sprite.png',
-				'../images/account/chosen-sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
+				'jquery.chosen.js': 'chosen/public/chosen.js'
+			}
+		},
+		less: {
+			options: {
+				destPrefix: 'less'
+			},
+			files: {
+				// If either the src or the dest is not present,
+				// the specified location will be used for both.
+				// In other words, this will copy
+				// 'bower_components/bootstrap/less/dropdowns.less' to 'less/bootstrap/less/dropdowns.less'
+				// See http://gruntjs.com/configuring-tasks#files for recommended files formats
+				src: 'bootstrap/less/dropdowns.less'
+			}
+		},
+		images: {
+			options: {
+				destPrefix: 'public/images'
+			},
+			files: {
+				'account/chosen-sprite.png': 'chosen/public/chosen-sprite.png',
+				'account/chosen-sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
 			}
 		}
 	}
