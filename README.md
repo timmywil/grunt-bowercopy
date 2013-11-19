@@ -10,6 +10,9 @@
 
 Whenever you add a new bower dependency, add which file should be copied and where to your Gruntfile `"bowercopy"` config. Then, run `grunt bowercopy`.
 
+You can configure bowercopy to run `bower install` for you (see the `runbower` option). However, your bower directory is not removed so you can see which files you need from each component.
+It is suggested that you add the bower directory to your `.gitignore`.
+
 ## Getting Started
 This plugin requires Grunt.
 
@@ -55,9 +58,15 @@ Default value: The `directory` property value in your `.bowerrc` or `'bower_comp
 
 #### options.destPrefix
 Type: `String`
-Default value: `'js'`
+Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
+
+#### option.runbower
+Type: `Boolean`
+Default value: `false`
+
+Run `bower install` in conjunction with the `bowercopy` task.
 
 
 ### Usage Examples
@@ -65,36 +74,43 @@ Default value: `'js'`
 ```js
 grunt.initConfig({
 	bowercopy: {
-		options: {
-			destPrefix: 'website/public/js'
-		},
 
-		// Keys are sources (prefixed with `options.srcPrefix`);
-		// values are destinations (prefixed with `options.destPrefix`)
-		// e.g. 'bower_components/chai/lib/chai.js' will be copied to 'website/public/js/libs/chai.js'
 		testFiles: {
-			'chai/lib/chai.js': 'libs/chai.js',
-			'mocha/mocha.js': 'libs/mocha/mocha.js',
-			'mocha/mocha.css': 'libs/mocha/mocha.css'
+			options: {
+				destPrefix: 'test/js'
+			},
+			files: {
+				// Keys are destinations (prefixed with `options.destPrefix`)
+				// Values are sources (prefixed with `options.srcPrefix`); One source per destination
+				// e.g. 'bower_components/chai/lib/chai.js' will be copied to 'test/js/libs/chai.js'
+				'libs/chai.js': 'chai/lib/chai.js': ,
+				'mocha/mocha.js': 'libs/mocha/mocha.js',
+				'mocha/mocha.css': 'libs/mocha/mocha.css'
+			}
 		},
 
 		// Anything can be copied
 		website: {
+			options: {
+				destPrefix: 'public/js'
+			},
+			files: {
 
-			// Javascript
-			'jquery/jquery.js': 'libs/jquery.js',
-			'lodash/dist/lodash.js': 'libs/lodash.js',
-			'requirejs/require.js': 'libs/require.js',
+				// Javascript
+				'libs/jquery.js': 'jquery/jquery.js',
+				'libs/lodash.js': 'lodash/dist/lodash.js',
+				'libs/require.js': 'requirejs/require.js',
 
-			// Make dependencies follow your naming conventions
-			'chosen/public/chosen.js': 'plugins/jquery.chosen.js',
+				// Make dependencies follow your naming conventions
+				'plugins/jquery.chosen.js': 'chosen/public/chosen.js',
 
-			// Less
-			'bootstrap/less/dropdowns.less': '../../less/dropdowns.less',
+				// Less
+				'../../less/dropdowns.less': 'bootstrap/less/dropdowns.less',
 
-			// Images
-			'chosen/public/chosen-sprite.png': '../images/account/chosen-sprite.png',
-			'chosen/public/chosen-sprite@2x.png': '../images/account/chosen-sprite@2x.png'
+				// Images
+				'../images/account/chosen-sprite.png': 'chosen/public/chosen-sprite.png',
+				'../images/account/chosen-sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
+			}
 		}
 	}
 });

@@ -12,28 +12,43 @@ module.exports = function (grunt) {
 	// Logging
 	var log = grunt.log,
 		verbose = grunt.verbose,
-		warn = grunt.warn,
 		fatal = grunt.fatal;
 
-	// Utilities
-	var _ = grunt.util._;
+	// Modules
+	var path = require('path'),
+		spawn = require('child_process').spawn;
 
-	// Node modules
-	var fs = require('fs'),
-		path = require('path');
+	/**
+	 * Copy over specified component files from the bower directory
+	 * @param {Object} files
+	 * @param {Object} options
+	 */
+	function copy( files, options ) {
 
-	// Regex
-	var rfolder = /\/[^\/]+$/;
+		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
+		verbose.writeln('Using destPrefix: ' + options.destPrefix);
+
+		files.forEach(function(file) {
+
+			file = file.orig;
+
+			// Prefix sources with the srcPath
+			var src = path.join(options.srcPrefix, file.src[0]);
+			var dest = path.join(options.destPrefix, file.dest);
+
+			// Copy
+			grunt.file.copy( src, dest );
+
+			log.writeln(src + ' -> ' + dest);
+		});
+		log.ok('Bower components copied to specified directories');
+	}
 
 	grunt.registerMultiTask(
 		'bowercopy',
 		'Copy only the needed files from bower components over to their specified file locations',
 		function bowercopy() {
-			// Require an object in data
-			if (!Object.keys(this.data).length) {
-				warn('Bowercopy is not configured to copy anything');
-				return;
-			}
+			var files = this.files;
 
 			// The file's presence is not required
 			var srcPrefix;
@@ -44,42 +59,25 @@ module.exports = function (grunt) {
 			// Options
 			var options = this.options({
 				srcPrefix: srcPrefix || 'bower_components',
-				destPrefix: 'js'
+				destPrefix: '',
+				runbower: false
 			});
 
-			verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
-			verbose.writeln('Using destPrefix: ' + options.destPrefix);
-
-			_.forOwn(this.data, function(dest, src) {
-				// Type checking
-				if ( typeof dest !== 'string' ) {
-					fatal('Destination must be a string: ' + JSON.stringify(dest) || dest);
-					return;
-				}
-				if ( typeof dest !== 'string' ) {
-					fatal('Source must be a string: ' + JSON.stringify(src) || src);
-					return;
-				}
-
-				// Prefix sources with the srcPath
-				src = path.join(options.srcPrefix, src);
-				dest = path.join(options.destPrefix, dest);
-
-				var folder = dest.replace(rfolder, '');
-
-				// Allow mkdir failures
-				try {
-					fs.mkdirSync(folder, 755);
-					verbose.writeln('Folder created: ' + folder);
-				} catch( e ) {
-					verbose.writeln('Folder already present: ' + folder);
-				}
-
-				// Copy
-				fs.writeFileSync( dest, fs.readFileSync( src ) );
-				log.writeln(src + ' -> ' + dest);
-			});
-			log.ok('Bower components copied to specified directories');
+			// Run `bower install` regardless
+			if ( options.runbower ) {
+				var done = this.async();
+				var install = spawn('bower', [ 'install' ], { stdio: 'inherit' });
+				install.on('close', function( code ) {
+					if ( code !== 0 ) {
+						fatal('Bower install process exited with code ' + code);
+						return;
+					}
+					copy( files, options );
+					done();
+				});
+			} else {
+				copy( files, options );
+			}
 		}
 	);
 };

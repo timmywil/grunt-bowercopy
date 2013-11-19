@@ -23,25 +23,24 @@ var grunt = require('grunt');
 */
 
 exports.bowercopy = {
-	setUp: function (done) {
-		// setup here if necessary
-		done();
-	},
 	default_options: function (test) {
 		test.expect(1);
 
-		var actual = grunt.file.read('tmp/default_options');
-		var expected = grunt.file.read('test/expected/default_options');
-		test.equal(actual, expected, 'should describe what the default behavior is.');
+		test.ok(grunt.file.exists('tmp/js/libs/jquery.js'), 'jQuery file copied to libs directory');
 
 		test.done();
 	},
-	custom_options: function (test) {
+	prefix_options: function (test) {
 		test.expect(1);
 
-		var actual = grunt.file.read('tmp/custom_options');
-		var expected = grunt.file.read('test/expected/custom_options');
-		test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+		test.ok(grunt.file.exists('tmp/js/plugins/jquery.panzoom.js'), 'Panzoom copied to plugins directory');
+
+		test.done();
+	},
+	runbower_option: function (test) {
+		test.expect(1);
+
+		test.ok(grunt.file.exists('tmp/js/libs/backbone.js'), 'Backbone installed and copied to libs directory');
 
 		test.done();
 	}

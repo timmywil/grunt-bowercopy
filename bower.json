@@ -1,0 +1,29 @@
+{
+  "name": "grunt-bowercopy",
+  "version": "0.0.1-pre",
+  "homepage": "https://github.com/timmywil/grunt-bowercopy",
+  "authors": [
+    "Timmy Willison <timmywillisn@gmail.com>"
+  ],
+  "description": "Scrupulously manage file locations for bower dependencies.",
+  "main": "Gruntfile.js",
+  "keywords": [
+    "gruntplugin",
+    "bowercopy",
+    "bower",
+    "copy"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_modules",
+    "test"
+  ],
+  "devDependencies": {
+    "jquery": "~2.0.3",
+    "backbone": "~1.1.0",
+    "jquery.panzoom": "~1.8.1"
+  }
+}
