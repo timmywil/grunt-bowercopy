@@ -140,6 +140,7 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
+- **0.2.0** *11-19-2013* Report any bower components not configured to be copied when all targets are run together
 - **0.1.0** *11-19-2013* First Release
 
 ## License
