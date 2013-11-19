@@ -8,6 +8,12 @@ Follow the [jQuery style guide](http://contribute.jquery.org/style-guide/js/), w
 
 Add tests to test/bowercopy_test.js.
 
+*Note: the bower.json in this repo is only used for testing. The `private` property is set to `true` on purpose.*
+
 If you're unfamiliar with grunt, [gruntjs.com](http://gruntjs.com/) is a good place to start. Follow instructions for installing grunt and see the Gruntfile for the tasks used.
 
 Always run tests before submitting a pull request, unless it is just a documentation or copy change.
+
+### Development workflow
+
+There is a watch task defined in the Gruntfile to lint and test as you go. Simply run `grunt watch` to start.
