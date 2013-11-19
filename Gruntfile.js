@@ -24,6 +24,12 @@ module.exports = function (grunt) {
 			}
 		},
 
+		jsonlint: {
+			all: [
+				'*.json'
+			]
+		},
+
 		// Configuration to be run (and then tested)
 		bowercopy: {
 			default_options: {
@@ -71,6 +77,12 @@ module.exports = function (grunt) {
 					'<%= jshint.all %>'
 				],
 				tasks: [ 'default' ]
+			},
+			json: {
+				files: [
+					'<%= jsonlint.all %>'
+				],
+				tasks: [ 'jsonlint' ]
 			}
 		}
 	});
@@ -83,6 +95,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', [ 'clean', 'bowercopy', 'nodeunit' ]);
 
 	// By default, lint and run all tests.
-	grunt.registerTask('default', [ 'jshint', 'test' ]);
+	grunt.registerTask('default', [ 'jshint', 'jsonlint', 'test' ]);
 
 };

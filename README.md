@@ -11,7 +11,7 @@
 Whenever you add a new bower dependency, add which file should be copied and where to your Gruntfile `"bowercopy"` config. Then, run `grunt bowercopy`.
 
 By default, bowercopy runs `bower install` for you (turn this off with the `runbower` option). Your bower directory is not removed so you can see which files you need from each component.
-It is suggested that you add the bower directory to your `.gitignore`.
+It is suggested that you add the bower directory (usually `'bower_components'`) to your `.gitignore`.
 
 ## Getting Started
 This plugin requires Grunt.
@@ -74,8 +74,8 @@ Run `bower install` in conjunction with the `bowercopy` task.
 ```js
 grunt.initConfig({
 	bowercopy: {
-
-		testFiles: {
+		// Anything can be copied
+		test: {
 			options: {
 				destPrefix: 'test/js'
 			},
@@ -88,8 +88,6 @@ grunt.initConfig({
 				'mocha/mocha.css': 'libs/mocha/mocha.css'
 			}
 		},
-
-		// Anything can be copied
 		libs: {
 			options: {
 				destPrefix: 'public/js/libs'
