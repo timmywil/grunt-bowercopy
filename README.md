@@ -139,7 +139,8 @@ Follow the same coding style present in the repo and add tests for any bug fix o
 See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/master/CONTRIBUTING.md) for more info.
 
 ## Release History
-_(Nothing yet)_
+
+- **0.1.0** *11-19-2013* First Release
 
 ## License
 Copyright (c) 2013 Timmy Willison. Licensed under the MIT license.
