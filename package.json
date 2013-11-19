@@ -19,7 +19,6 @@
     "bower",
     "copy"
   ],
-  "main": "Gruntfile.js",
   "engines": {
     "node": ">= 0.8.0"
   },
