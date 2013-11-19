@@ -28,7 +28,8 @@ module.exports = function (grunt) {
 		bowercopy: {
 			default_options: {
 				files: {
-					'tmp/js/libs/jquery.js': 'jquery/jquery.js'
+					'tmp/js/libs/jquery.js': 'jquery/jquery.js',
+					'tmp/js/plugins/jquery.panzoom.js': 'jquery.panzoom/dist/jquery.panzoom.js'
 				}
 			},
 			prefix_options: {
@@ -36,17 +37,15 @@ module.exports = function (grunt) {
 					srcPrefix: 'bower_modules',
 					destPrefix: 'tmp/js'
 				},
-				files: {
-					'plugins/jquery.panzoom.js': 'jquery.panzoom/dist/jquery.panzoom.js'
-				}
+				src: 'backbone/backbone.js'
 			},
-			runbower_option: {
+			images: {
 				options: {
-					runbower: true,
-					destPrefix: 'tmp/js'
+					destPrefix: 'tmp/images'
 				},
 				files: {
-					'libs/backbone.js': 'backbone/backbone.js'
+					'chosen/sprite.png': 'chosen/public/chosen-sprite.png',
+					'chosen/sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
 				}
 			}
 		},
@@ -55,8 +54,8 @@ module.exports = function (grunt) {
 		clean: {
 			tests: [
 				'tmp',
-				// bowercopy should install backbone
-				'bower_modules/backbone'
+				// bowercopy should install bower dependencies
+				'bower_modules'
 			]
 		},
 
@@ -74,7 +73,6 @@ module.exports = function (grunt) {
 				tasks: [ 'default' ]
 			}
 		}
-
 	});
 
 	// Actually load this plugin's task(s).

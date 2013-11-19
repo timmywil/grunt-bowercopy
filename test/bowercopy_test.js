@@ -24,23 +24,25 @@ var grunt = require('grunt');
 
 exports.bowercopy = {
 	default_options: function (test) {
-		test.expect(1);
+		test.expect(2);
 
 		test.ok(grunt.file.exists('tmp/js/libs/jquery.js'), 'jQuery file copied to libs directory');
+		test.ok(grunt.file.exists('tmp/js/plugins/jquery.panzoom.js'), 'Panzoom file copied to libs directory');
 
 		test.done();
 	},
 	prefix_options: function (test) {
 		test.expect(1);
 
-		test.ok(grunt.file.exists('tmp/js/plugins/jquery.panzoom.js'), 'Panzoom copied to plugins directory');
+		test.ok(grunt.file.exists('tmp/js/backbone/backbone.js'), 'Backbone copied to backbone directory');
 
 		test.done();
 	},
-	runbower_option: function (test) {
-		test.expect(1);
+	images: function(test) {
+		test.expect(2);
 
-		test.ok(grunt.file.exists('tmp/js/libs/backbone.js'), 'Backbone installed and copied to libs directory');
+		test.ok(grunt.file.exists('tmp/images/chosen/sprite.png'), 'Copies chosen sprite image');
+		test.ok(grunt.file.exists('tmp/images/chosen/sprite@2x.png'), 'Copies chosen sprite image');
 
 		test.done();
 	}

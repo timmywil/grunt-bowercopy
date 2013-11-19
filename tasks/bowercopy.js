@@ -29,12 +29,13 @@ module.exports = function (grunt) {
 		verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
 		files.forEach(function(file) {
-
 			file = file.orig;
 
-			// Prefix sources with the srcPath
-			var src = path.join(options.srcPrefix, file.src[0]);
-			var dest = path.join(options.destPrefix, file.dest);
+			// Add prefixes to source and destination
+			// Default each to the other if one is not specified
+			// Ignore multiple sources
+			var src = path.join(options.srcPrefix, file.src[0] || file.dest);
+			var dest = path.join(options.destPrefix, file.dest || file.src[0]);
 
 			// Copy
 			grunt.file.copy( src, dest );
@@ -60,7 +61,7 @@ module.exports = function (grunt) {
 			var options = this.options({
 				srcPrefix: srcPrefix || 'bower_components',
 				destPrefix: '',
-				runbower: false
+				runbower: true
 			});
 
 			// Run `bower install` regardless

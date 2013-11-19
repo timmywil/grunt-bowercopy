@@ -64,7 +64,7 @@ Default value: `''`
 
 #### option.runbower
 Type: `Boolean`
-Default value: `false`
+Default value: `true`
 
 Run `bower install` in conjunction with the `bowercopy` task.
 
