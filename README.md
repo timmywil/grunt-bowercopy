@@ -1,4 +1,5 @@
 # grunt-bowercopy
+[![Build Status](https://travis-ci.org/timmywil/grunt-bowercopy.png?branch=master)](https://travis-ci.org/timmywil/grunt-bowercopy)
 
 > Wrangle those bower dependencies and place each one where it's supposed to be.
 
