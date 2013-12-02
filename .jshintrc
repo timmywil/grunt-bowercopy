@@ -3,6 +3,7 @@
   "curly": true,
   "eqeqeq": true,
   "eqnull": true,
+  "es5": true,
   "evil": true,
   "expr": true,
   "immed": true,

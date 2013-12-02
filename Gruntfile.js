@@ -53,15 +53,18 @@ module.exports = function (grunt) {
 					'chosen/sprite.png': 'chosen/public/chosen-sprite.png',
 					'chosen/sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
 				}
+			},
+			clean: {
+				options: {
+					clean: true
+				}
 			}
 		},
 
 		// Before generating any new files, remove any previously-created files
 		clean: {
 			tests: [
-				'tmp',
-				// bowercopy should install bower dependencies
-				'bower_modules'
+				'tmp'
 			]
 		},
 

@@ -64,9 +64,10 @@ module.exports = function (grunt) {
 	/**
 	 * Ensure all bower dependencies are accounted for
 	 * @param {Object} files Files property from the task
+	 * @param {Object} options
 	 * @returns {boolean} Returns whether all dependencies are accounted for
 	 */
-	function ensure(files) {
+	function ensure(files, options) {
 		// We need the originals, which grunt's filesSrc does not give us if the files are not present yet
 		var filesSrc = _.map(files, function(file) { return file.orig.src[0] || file.orig.dest; });
 
@@ -78,6 +79,10 @@ module.exports = function (grunt) {
 			if (unused.length) {
 				log.error('Some bower components are not configured: ', unused);
 			} else {
+				// Remove the bower_components directory as it's no longer needed
+				if (options.clean) {
+					grunt.file.delete(options.srcPrefix);
+				}
 				log.ok('All modules accounted for');
 			}
 		}
@@ -110,7 +115,7 @@ module.exports = function (grunt) {
 		log.ok('Bower components copied to specified directories');
 
 		// Report if any dependencies have not been copied
-		ensure(files);
+		ensure(files, options);
 	}
 
 	grunt.registerMultiTask(
@@ -129,7 +134,8 @@ module.exports = function (grunt) {
 			var options = this.options({
 				srcPrefix: srcPrefix || 'bower_components',
 				destPrefix: '',
-				runbower: true
+				runbower: true,
+				clean: false
 			});
 
 			// Run `bower install` regardless

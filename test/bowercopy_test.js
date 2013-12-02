@@ -45,5 +45,12 @@ exports.bowercopy = {
 		test.ok(grunt.file.exists('tmp/images/chosen/sprite@2x.png'), 'Copies chosen sprite image');
 
 		test.done();
+	},
+	clean: function(test) {
+		test.expect(1);
+
+		test.ok(!grunt.file.exists('bower_modules'), 'The bower_modules folder was removed');
+
+		test.done();
 	}
 };
