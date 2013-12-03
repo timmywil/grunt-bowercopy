@@ -43,7 +43,7 @@ module.exports = function (grunt) {
 					srcPrefix: 'bower_modules',
 					destPrefix: 'tmp/js'
 				},
-				src: 'backbone/backbone.js'
+				src: 'backbone'
 			},
 			images: {
 				options: {

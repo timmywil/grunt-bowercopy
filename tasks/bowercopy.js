@@ -110,8 +110,15 @@ module.exports = function (grunt) {
 			var src = path.join(options.srcPrefix, file.src[0] || file.dest);
 			var dest = path.join(options.destPrefix, file.dest || file.src[0]);
 
-			// Copy
-			grunt.file.copy( src, dest );
+			// Copy folders
+			if (grunt.file.isDir(src)) {
+				grunt.file.recurse(src, function(abspath, rootdir, subdir, filename) {
+					grunt.file.copy( abspath, path.join(dest, subdir || '', filename) );
+				});
+			// Copy files
+			} else {
+				grunt.file.copy(src, dest);
+			}
 
 			log.writeln(src + ' -> ' + dest);
 		});

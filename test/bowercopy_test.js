@@ -32,9 +32,13 @@ exports.bowercopy = {
 		test.done();
 	},
 	prefix_options: function (test) {
-		test.expect(1);
+		test.expect(5);
 
 		test.ok(grunt.file.exists('tmp/js/backbone/backbone.js'), 'Backbone copied to backbone directory');
+		test.ok(grunt.file.exists('tmp/js/backbone/backbone-min.js'), 'Backbone copied to backbone directory');
+		test.ok(grunt.file.exists('tmp/js/backbone/backbone-min.map'), 'Backbone copied to backbone directory');
+		test.ok(grunt.file.exists('tmp/js/backbone/index.html'), 'Backbone copied to backbone directory');
+		test.ok(grunt.file.exists('tmp/js/backbone/package.json'), 'Backbone copied to backbone directory');
 
 		test.done();
 	},
