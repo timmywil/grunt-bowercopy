@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 		fatal = grunt.fatal;
 
 	// Utilities
-	var _ = grunt.util._;
+	var _ = require('lodash');
 
 	// Modules
 	var path = require('path'),
