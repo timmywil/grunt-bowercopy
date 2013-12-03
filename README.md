@@ -87,6 +87,10 @@ Removes the bower components directory on completion. The folder path that is re
 ```js
 grunt.initConfig({
 	bowercopy: {
+		options: {
+			// Bower components folder will be removed afterwards
+			clean: true
+		},
 		// Anything can be copied
 		test: {
 			options: {
@@ -101,13 +105,13 @@ grunt.initConfig({
 				'mocha/mocha.css': 'libs/mocha/mocha.css'
 			}
 		},
+		// Javascript
 		libs: {
 			options: {
 				destPrefix: 'public/js/libs'
 			},
 			files: {
 				'jquery.js': 'jquery/jquery.js',
-				'lodash.js': 'lodash/dist/lodash.js',
 				'require.js': 'requirejs/require.js'
 			},
 		},
@@ -120,6 +124,7 @@ grunt.initConfig({
 				'jquery.chosen.js': 'chosen/public/chosen.js'
 			}
 		},
+		// Less
 		less: {
 			options: {
 				destPrefix: 'less'
@@ -133,6 +138,7 @@ grunt.initConfig({
 				src: 'bootstrap/less/dropdowns.less'
 			}
 		},
+		// Images
 		images: {
 			options: {
 				destPrefix: 'public/images'
@@ -140,6 +146,13 @@ grunt.initConfig({
 			files: {
 				'account/chosen-sprite.png': 'chosen/public/chosen-sprite.png',
 				'account/chosen-sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
+			}
+		},
+		// Entire folders
+		folders: {
+			files: {
+				// Note: when copying folders, the destination (key) will be used as the location for the folder
+				'public/js/libs/lodash': 'lodash'
 			}
 		}
 	}
