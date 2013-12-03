@@ -36,6 +36,7 @@ module.exports = function (grunt) {
 
 	/**
 	 * Retrieve the number of targets from the grunt config
+	 * @returns {number|undefined} Returns the number of targets, or undefined if the bowercopy config could not be found
 	 */
 	function getNumTargets() {
 		if (numTargets) {
@@ -46,6 +47,7 @@ module.exports = function (grunt) {
 			delete targets.options;
 			numTargets = Object.keys(targets).length;
 		}
+		return numTargets;
 	}
 
 	/**
