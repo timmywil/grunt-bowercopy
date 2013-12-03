@@ -78,7 +78,7 @@ Removes the bower components directory on completion. The folder path that is re
 
 **Note: the directory will only be removed if the following conditions are met.**
 
-  1. All tasks targets are run (i.e. grunt-bowercopy was run with the command `grunt bowercopy` and not `grunt bowercopy:target`).
+  1. All task targets are run (i.e. grunt-bowercopy was run with the command `grunt bowercopy` and not `grunt bowercopy:target`).
   2. At least one thing was copied from each bower component (grunt-bowercopy tracks this for you).
 
 
