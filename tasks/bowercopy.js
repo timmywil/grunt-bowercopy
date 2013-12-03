@@ -82,8 +82,9 @@ module.exports = function (grunt) {
 				// Remove the bower_components directory as it's no longer needed
 				if (options.clean) {
 					grunt.file.delete(options.srcPrefix);
+					log.ok('Bower directory cleaned.');
 				}
-				log.ok('All modules accounted for');
+				log.ok('All modules accounted for.');
 			}
 		}
 		return true;
