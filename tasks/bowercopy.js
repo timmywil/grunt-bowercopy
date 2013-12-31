@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 
 	// Modules
 	var path = require('path'),
-		spawn = require('child_process').spawn;
+		bower = require('bower');
 
 	// Get all modules
 	var bowerConfig;
@@ -134,15 +134,9 @@ module.exports = function (grunt) {
 		function bowercopy() {
 			var files = this.files;
 
-			// The file's presence is not required
-			var srcPrefix;
-			try {
-				srcPrefix = (grunt.file.readJSON('.bowerrc') || {}).directory;
-			} catch(e) {}
-
 			// Options
 			var options = this.options({
-				srcPrefix: srcPrefix || 'bower_components',
+				srcPrefix: bower.config.directory,
 				destPrefix: '',
 				runbower: true,
 				clean: false
@@ -151,12 +145,12 @@ module.exports = function (grunt) {
 			// Run `bower install` regardless
 			if (options.runbower) {
 				var done = this.async();
-				var install = spawn('bower', [ 'install' ], { stdio: 'inherit' });
-				install.on('close', function(code) {
-					if (code !== 0) {
-						fatal('Bower install process exited with code ' + code);
-						return;
-					}
+
+				bower.commands.install().on('log', function(result) {
+					log.writeln(['bower', result.id.cyan, result.message].join(' '));
+				}).on('error', function(code) {
+					fatal(code);
+				}).on('end', function() {
 					copy(files, options);
 					done();
 				});
