@@ -113,11 +113,11 @@ module.exports = function (grunt) {
 			// Copy folders
 			if (grunt.file.isDir(src)) {
 				grunt.file.recurse(src, function(abspath, rootdir, subdir, filename) {
-					grunt.file.copy( abspath, path.join(dest, subdir || '', filename) );
+					grunt.file.copy( abspath, path.join(dest, subdir || '', filename), options.copyOptions );
 				});
 			// Copy files
 			} else {
-				grunt.file.copy(src, dest);
+				grunt.file.copy(src, dest, options.copyOptions);
 			}
 
 			log.writeln(src + ' -> ' + dest);
@@ -139,7 +139,8 @@ module.exports = function (grunt) {
 				srcPrefix: bower.config.directory,
 				destPrefix: '',
 				runbower: true,
-				clean: false
+				clean: false,
+				copyOptions: {}
 			});
 
 			// Run `bower install` regardless

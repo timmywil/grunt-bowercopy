@@ -42,6 +42,16 @@ exports.bowercopy = {
 
 		test.done();
 	},
+	process: function(test) {
+		test.expect(4);
+
+		test.ok(grunt.file.exists('tmp/js/jquery-ui/jquery.ui.core.js'), 'jQuery UI core copied to jquery-ui directory');
+		test.ok(grunt.file.exists('tmp/js/jquery-ui/jquery.ui.widget.js'), 'jQuery UI widget factory copied to jquery-ui directory');
+		test.strictEqual(grunt.file.read('tmp/js/jquery-ui/jquery.ui.core.js'), grunt.file.read('test/golden_files/jquery.ui.core.js' ), 'jQuery UI core contains commit hash as its version');
+		test.strictEqual(grunt.file.read('tmp/js/jquery-ui/jquery.ui.widget.js'), grunt.file.read('test/golden_files/jquery.ui.widget.js' ), 'jQuery UI widget factory contains commit hash as its version');
+
+		test.done();
+	},
 	images: function(test) {
 		test.expect(2);
 

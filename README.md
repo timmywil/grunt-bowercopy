@@ -81,6 +81,11 @@ Removes the bower components directory on completion. The folder path that is re
   1. All task targets are run (i.e. grunt-bowercopy was run with the command `grunt bowercopy` and not `grunt bowercopy:target`).
   2. At least one thing was copied from each bower component (grunt-bowercopy tracks this for you).
 
+#### options.copyOptions
+Type: `Object`  
+Default value: `{}`
+
+Options to pass to `grunt.file.copy` when copying the files. See [grunt.file.copy](http://gruntjs.com/api/grunt.file#grunt.file.copy)
 
 ### Usage Examples
 
