@@ -45,6 +45,21 @@ module.exports = function (grunt) {
 				},
 				src: 'backbone'
 			},
+			process: {
+				options: {
+					destPrefix: 'tmp/js/jquery-ui',
+					copyOptions: {
+						process: function(content) {
+							var version = grunt.file.readJSON('bower.json').devDependencies['jquery-ui'].split('#')[1];
+							return content.replace(/@VERSION/g, version);
+						}
+					}
+				},
+				files: {
+					'jquery.ui.core.js': 'jquery-ui/ui/jquery.ui.core.js',
+					'jquery.ui.widget.js': 'jquery-ui/ui/jquery.ui.widget.js'
+				}
+			},
 			images: {
 				options: {
 					destPrefix: 'tmp/images'
