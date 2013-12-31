@@ -171,6 +171,7 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
+- **0.5.0** *12-31-2013* Add `options.copyOptions` to be passed along to `grunt.file.copy` and fix issue with local-only bower usage.
 - **0.4.0** *12-3-2013* Update grunt to 0.4.2. Add the ability to copy folders.
 - **0.3.0** *12-2-2013* Add clean option for removing the bower components directory on full task completion.
 - **0.2.0** *11-19-2013* Report any bower components not configured to be copied when all targets are run together.
