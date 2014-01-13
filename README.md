@@ -159,6 +159,30 @@ grunt.initConfig({
 				// Note: when copying folders, the destination (key) will be used as the location for the folder
 				'public/js/libs/lodash': 'lodash'
 			}
+		},
+		// Glob patterns
+		glob: {
+			files: {
+				// When using glob patterns, destinations are *always* folder names
+				// into which matching files will be copied
+				// Also note that subdirectories are **not** maintained
+				// if a destination is specified
+				// For example, one of the files copied here is
+				// 'lodash/dist/lodash.js' -> 'public/js/libs/lodash/lodash.js'
+				'public/js/libs/lodash': 'lodash/dist/*.js'
+			}
+		},
+		// Glob without destination
+		globSrc: {
+			options: {
+				destPrefix: 'public/js/libs'
+			},
+			// By not specifying a destination, you are denoting
+			// that the lodash directory structure should be maintained
+			// when copying.
+			// For example, one of the files copied here is
+			// 'lodash/dist/lodash.js' -> 'public/js/libs/lodash/dist/lodash.js'
+			src: 'lodash/**/*.js'
 		}
 	}
 });

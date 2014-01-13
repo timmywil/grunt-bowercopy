@@ -29,7 +29,8 @@
   ],
   "dependencies": {
     "bower": "~1.2.8",
-    "lodash": "~2.4.0"
+    "lodash": "~2.4.0",
+    "glob": "~3.2.8"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

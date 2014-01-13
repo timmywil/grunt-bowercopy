@@ -55,15 +55,23 @@ exports.bowercopy = {
 	images: function(test) {
 		test.expect(2);
 
-		test.ok(grunt.file.exists('tmp/images/chosen/sprite.png'), 'Copies chosen sprite image');
-		test.ok(grunt.file.exists('tmp/images/chosen/sprite@2x.png'), 'Copies chosen sprite image');
+		test.ok(grunt.file.exists('tmp/images/chosen/sprite.png'), 'Copy chosen sprite image');
+		test.ok(grunt.file.exists('tmp/images/chosen/sprite@2x.png'), 'Copy chosen sprite image');
+
+		test.done();
+	},
+	glob: function(test) {
+		test.expect(2);
+
+		test.ok(grunt.file.exists('tmp/js/libs/lodash/dist/lodash.js'), 'Copy lodash files with glob src');
+		test.ok(grunt.file.exists('tmp/js/libs/lodash/dist/lodash.compat.js'), 'Copy lodash files with glob src');
 
 		test.done();
 	},
 	clean: function(test) {
 		test.expect(1);
 
-		test.ok(!grunt.file.exists('bower_modules'), 'The bower_modules folder was removed');
+		test.ok(!grunt.file.exists('bower_modules'), 'Remove bower_modules folder');
 
 		test.done();
 	}

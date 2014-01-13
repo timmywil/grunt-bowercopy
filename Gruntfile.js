@@ -69,6 +69,15 @@ module.exports = function (grunt) {
 					'chosen/sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
 				}
 			},
+			glob: {
+				options: {
+					destPrefix: 'tmp/js/libs'
+				},
+				// When using glob for source files,
+				// the destination will always be used as a FOLDER
+				// in which to place the matching files
+				src: 'lodash/**/*.js'
+			},
 			clean: {
 				options: {
 					clean: true

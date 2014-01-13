@@ -18,7 +18,8 @@ module.exports = function (grunt) {
 
 	// Modules
 	var path = require('path'),
-		bower = require('bower');
+		bower = require('bower'),
+		glob = require('glob');
 
 	// Get all modules
 	var bowerConfig;
@@ -82,6 +83,8 @@ module.exports = function (grunt) {
 		// Update the global array of represented modules
 		unused = filterRepresented(unused, filesSrc);
 
+		verbose.writeln('Unrepresented modules list currently at ', unused);
+
 		// Only print message when all targets have been run
 		if (++numRuns === getNumTargets()) {
 			if (unused.length) {
@@ -90,11 +93,12 @@ module.exports = function (grunt) {
 				// Remove the bower_components directory as it's no longer needed
 				if (options.clean) {
 					grunt.file.delete(options.srcPrefix);
-					log.ok('Bower directory cleaned.');
+					log.ok('Bower directory cleaned');
 				}
-				log.ok('All modules accounted for.');
+				log.ok('All modules accounted for');
 			}
 		}
+		log.ok('Bower components copied to specified locations');
 		return true;
 	}
 
@@ -104,17 +108,29 @@ module.exports = function (grunt) {
 	 * @param {Object} options
 	 */
 	function copy(files, options) {
+		var recurse;
 		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
 		verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
 		files.forEach(function(file) {
+			// Grunt's files object format
 			file = file.orig;
 
-			// Add prefixes to source and destination
 			// Default each to the other if one is not specified
-			// Ignore multiple sources
-			var src = path.join(options.srcPrefix, file.src[0] || file.dest);
-			var dest = path.join(options.destPrefix, file.dest || file.src[0]);
+			// Ignore multiple explicit sources
+			var src = file.src[0] || file.dest;
+			// dest can be empty string to avoid using the source
+			var dest = file.dest != null ? file.dest : file.src[0];
+
+			// Add source prefix if not already added
+			if (src.indexOf(options.srcPrefix) !== 0) {
+				src = path.join(options.srcPrefix, src);
+			}
+
+			// Add dest prefix if not already added
+			if (dest.indexOf(options.destPrefix) !== 0) {
+				dest = path.join(options.destPrefix, dest);
+			}
 
 			// Copy folders
 			if (grunt.file.isDir(src)) {
@@ -125,17 +141,40 @@ module.exports = function (grunt) {
 						options.copyOptions
 					);
 				});
+				log.writeln(src + ' -> ' + dest);
 			// Copy files
-			} else {
+			} else if (grunt.file.exists(src)) {
 				grunt.file.copy(src, dest, options.copyOptions);
+				log.writeln(src + ' -> ' + dest);
+			// Glob
+			} else {
+				var matches = glob.sync(src);
+				if (matches.length) {
+					// Convert to grunt format
+					matches = matches.map(function(match) {
+						return { orig: {
+							src: [match],
+							dest: path.join(
+								// Build a destination from the new source if no dest
+								// was specified
+								file.dest != null ?
+									file.dest :
+									path.dirname(match).replace(options.srcPrefix + '/', ''),
+								path.basename(match)
+							)
+						} };
+					});
+					recurse = true;
+					// Recurse to copy
+					copy(matches, options);
+				}
 			}
-
-			log.writeln(src + ' -> ' + dest);
 		});
-		log.ok('Bower components copied to specified directories');
 
-		// Report if any dependencies have not been copied
-		ensure(files, options);
+		if (!recurse) {
+			// Report if any dependencies have not been copied
+			ensure(files, options);
+		}
 	}
 
 	grunt.registerMultiTask(
