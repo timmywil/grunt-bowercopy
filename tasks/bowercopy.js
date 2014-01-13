@@ -27,7 +27,9 @@ module.exports = function (grunt) {
 	} catch(e) {
 		return true;
 	}
-	var allModules = Object.keys(_.extend({}, bowerConfig.dependencies, bowerConfig.devDependencies));
+	var allModules = Object.keys(
+		_.extend({}, bowerConfig.dependencies, bowerConfig.devDependencies)
+	);
 	var unused = allModules.slice(0);
 
 	// Track number of runs
@@ -36,7 +38,8 @@ module.exports = function (grunt) {
 
 	/**
 	 * Retrieve the number of targets from the grunt config
-	 * @returns {number|undefined} Returns the number of targets, or undefined if the bowercopy config could not be found
+	 * @returns {number|undefined} Returns the number of targets,
+	 *  or undefined if the bowercopy config could not be found
 	 */
 	function getNumTargets() {
 		if (numTargets) {
@@ -70,8 +73,11 @@ module.exports = function (grunt) {
 	 * @returns {boolean} Returns whether all dependencies are accounted for
 	 */
 	function ensure(files, options) {
-		// We need the originals, which grunt's filesSrc does not give us if the files are not present yet
-		var filesSrc = _.map(files, function(file) { return file.orig.src[0] || file.orig.dest; });
+		// We need the originals, which grunt's filesSrc
+		// does not give us if the files are not present yet
+		var filesSrc = _.map(files, function(file) {
+			return file.orig.src[0] || file.orig.dest;
+		});
 
 		// Update the global array of represented modules
 		unused = filterRepresented(unused, filesSrc);
@@ -113,7 +119,11 @@ module.exports = function (grunt) {
 			// Copy folders
 			if (grunt.file.isDir(src)) {
 				grunt.file.recurse(src, function(abspath, rootdir, subdir, filename) {
-					grunt.file.copy( abspath, path.join(dest, subdir || '', filename), options.copyOptions );
+					grunt.file.copy(
+						abspath,
+						path.join(dest, subdir || '', filename),
+						options.copyOptions
+					);
 				});
 			// Copy files
 			} else {
@@ -130,7 +140,10 @@ module.exports = function (grunt) {
 
 	grunt.registerMultiTask(
 		'bowercopy',
-		'Copy only the needed files from bower components over to their specified file locations',
+		[
+			'Copy only the needed files from bower components',
+			'over to their specified file locations'
+		].join(' '),
 		function bowercopy() {
 			var files = this.files;
 
@@ -143,8 +156,8 @@ module.exports = function (grunt) {
 				copyOptions: {}
 			});
 
-			// Run `bower install` regardless
 			if (options.runbower) {
+				// Run `bower install`
 				var done = this.async();
 
 				bower.commands.install().on('log', function(result) {
