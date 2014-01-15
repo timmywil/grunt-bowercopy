@@ -55,8 +55,8 @@ exports.bowercopy = {
 	images: function(test) {
 		test.expect(2);
 
-		test.ok(grunt.file.exists('tmp/images/chosen/sprite.png'), 'Copy chosen sprite image');
-		test.ok(grunt.file.exists('tmp/images/chosen/sprite@2x.png'), 'Copy chosen sprite image');
+		test.ok(grunt.file.exists('tmp/images/chosen/chosen-sprite.png'), 'Copy chosen sprite image');
+		test.ok(grunt.file.exists('tmp/images/chosen/chosen-sprite@2x.png'), 'Copy chosen sprite image');
 
 		test.done();
 	},

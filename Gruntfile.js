@@ -62,12 +62,11 @@ module.exports = function (grunt) {
 			},
 			images: {
 				options: {
-					destPrefix: 'tmp/images'
+					srcPrefix: 'bower_modules/chosen/public',
+					destPrefix: 'tmp/images/chosen'
 				},
-				files: {
-					'chosen/sprite.png': 'chosen/public/chosen-sprite.png',
-					'chosen/sprite@2x.png': 'chosen/public/chosen-sprite@2x.png'
-				}
+				// Test source arrays
+				src: ['chosen-sprite.png', 'chosen-sprite@2x.png']
 			},
 			glob: {
 				options: {

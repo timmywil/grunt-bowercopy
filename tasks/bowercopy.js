@@ -55,33 +55,60 @@ module.exports = function (grunt) {
 	}
 
 	/**
+	 * Convert from grunt to a cleaner format
+	 * @param {Array} files
+	 */
+	function convert(files) {
+		var converted = [];
+		files.forEach(function(file) {
+			// We need originals as the destinations may not yet exist
+			file = file.orig;
+			var dest = file.dest;
+
+			// Use destination for source if no source is available
+			if (!file.src.length) {
+				converted.push({
+					src: dest,
+					dest: dest
+				});
+				return;
+			}
+
+			file.src.forEach(function(source) {
+				converted.push({
+					src: source,
+					dest: dest
+				});
+			});
+		});
+		return converted;
+	}
+
+	/**
 	 * Filter out all of the modules represented in the filesSrc array
 	 * @param {Array} modules
-	 * @param {Array} filesSrc
+	 * @param {Array} files
+	 * @param {Object} options
 	 */
-	function filterRepresented(modules, filesSrc) {
+	function filterRepresented(modules, files, options) {
 		return _.filter(modules, function(module) {
-			return !_.some(filesSrc, function(src) {
-				return path.join('/', src, '/').indexOf('/' + module + '/') > -1;
+			return !_.some(files, function(file) {
+				// Look for the module name somewhere in the source path
+				return path.join('/', options.srcPrefix, file.src, '/')
+					.indexOf('/' + module + '/') > -1;
 			});
 		});
 	}
 
 	/**
 	 * Ensure all bower dependencies are accounted for
-	 * @param {Object} files Files property from the task
+	 * @param {Array} files Files property from the task
 	 * @param {Object} options
 	 * @returns {boolean} Returns whether all dependencies are accounted for
 	 */
 	function ensure(files, options) {
-		// We need the originals, which grunt's filesSrc
-		// does not give us if the files are not present yet
-		var filesSrc = _.map(files, function(file) {
-			return file.orig.src[0] || file.orig.dest;
-		});
-
 		// Update the global array of represented modules
-		unused = filterRepresented(unused, filesSrc);
+		unused = filterRepresented(unused, files, options);
 
 		verbose.writeln('Unrepresented modules list currently at ', unused);
 
@@ -98,29 +125,42 @@ module.exports = function (grunt) {
 				log.ok('All modules accounted for');
 			}
 		}
-		log.ok('Bower components copied to specified locations');
-		return true;
+	}
+
+	/**
+	 * Convert an array of files sources to our format
+	 * @param {Array} files
+	 * @param {Object} options
+	 * @param {String} [dest] A folder destination for all of these sources
+	 */
+	function convertMatches(files, options, dest) {
+		return files.map(function(source) {
+			return {
+				src: source,
+				dest: path.join(
+					// Build a destination from the new source if no dest
+					// was specified
+					dest != null ?
+						dest :
+						path.dirname(source).replace(options.srcPrefix + '/', ''),
+					path.basename(source)
+				)
+			};
+		});
 	}
 
 	/**
 	 * Copy over specified component files from the bower directory
-	 * @param {Object} files
+	 *  files format: [{ src: '', dest: '' }, ...]
+	 * @param {Array} files
 	 * @param {Object} options
 	 */
 	function copy(files, options) {
-		var recurse;
-		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
-		verbose.writeln('Using destPrefix: ' + options.destPrefix);
-
 		files.forEach(function(file) {
-			// Grunt's files object format
-			file = file.orig;
-
-			// Default each to the other if one is not specified
-			// Ignore multiple explicit sources
-			var src = file.src[0] || file.dest;
-			// dest can be empty string to avoid using the source
-			var dest = file.dest != null ? file.dest : file.src[0];
+			var src = file.src;
+			// Use source for destination if no destionation is available
+			// This is done here so globbing can use the original dest
+			var dest = file.dest || src;
 
 			// Add source prefix if not already added
 			if (src.indexOf(options.srcPrefix) !== 0) {
@@ -150,31 +190,34 @@ module.exports = function (grunt) {
 			} else {
 				var matches = glob.sync(src);
 				if (matches.length) {
-					// Convert to grunt format
-					matches = matches.map(function(match) {
-						return { orig: {
-							src: [match],
-							dest: path.join(
-								// Build a destination from the new source if no dest
-								// was specified
-								file.dest != null ?
-									file.dest :
-									path.dirname(match).replace(options.srcPrefix + '/', ''),
-								path.basename(match)
-							)
-						} };
-					});
-					recurse = true;
-					// Recurse to copy
+					matches = convertMatches(matches, options, file.dest);
 					copy(matches, options);
 				}
 			}
 		});
+	}
 
-		if (!recurse) {
-			// Report if any dependencies have not been copied
-			ensure(files, options);
-		}
+	/**
+	 * Top-level copying run
+	 *  files format is Grunt's default:
+	 *  [{ orig: { src: '', dest: '' }, src: '', dest: '' }, ...]
+	 *  convert to copy()'s format before calling copy()
+	 * @param {Array} files
+	 * @param {Object} options
+	 */
+	function run(files, options) {
+		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
+		verbose.writeln('Using destPrefix: ' + options.destPrefix);
+
+		// Build the file list
+		files = convert(files);
+
+		// Copy files
+		copy(files, options);
+		log.ok('Bower components copied to specified locations');
+
+		// Report if any dependencies have not been copied
+		ensure(files, options);
 	}
 
 	grunt.registerMultiTask(
@@ -204,11 +247,11 @@ module.exports = function (grunt) {
 				}).on('error', function(code) {
 					fatal(code);
 				}).on('end', function() {
-					copy(files, options);
+					run(files, options);
 					done();
 				});
 			} else {
-				copy(files, options);
+				run(files, options);
 			}
 		}
 	);
