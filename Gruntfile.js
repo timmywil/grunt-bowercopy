@@ -79,7 +79,8 @@ module.exports = function (grunt) {
 			},
 			clean: {
 				options: {
-					clean: true
+					clean: true,
+					report: false
 				}
 			}
 		},

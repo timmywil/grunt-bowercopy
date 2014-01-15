@@ -63,13 +63,17 @@ Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
 
+#### options.report
+Type: `Boolean`  
+Default value: `true`
+
+Report any modules in your bower.json that have not been configured to copy at least one file with `bowercopy`.
 
 #### options.runBower
 Type: `Boolean`  
 Default value: `true`
 
 Run `bower install` in conjunction with the `bowercopy` task.
-
 
 #### options.clean
 Type: `Boolean`  

@@ -115,14 +115,21 @@ module.exports = function (grunt) {
 		// Only print message when all targets have been run
 		if (++numRuns === getNumTargets()) {
 			if (unused.length) {
-				log.error('Some bower components are not configured: ', unused);
+				if (!options.clean && options.report) {
+					log.writeln('Some bower components are not configured: ', unused);
+				}
+				if (options.clean) {
+					log.error('Could not clean directory. Some bower components are not configured: ', unused);
+				}
 			} else {
 				// Remove the bower_components directory as it's no longer needed
 				if (options.clean) {
 					grunt.file.delete(options.srcPrefix);
 					log.ok('Bower directory cleaned');
 				}
-				log.ok('All modules accounted for');
+				if (options.report) {
+					log.ok('All modules accounted for');
+				}
 			}
 		}
 	}
@@ -233,6 +240,7 @@ module.exports = function (grunt) {
 			var options = this.options({
 				srcPrefix: bower.config.directory,
 				destPrefix: '',
+				report: true,
 				runBower: true,
 				clean: false,
 				copyOptions: {}
