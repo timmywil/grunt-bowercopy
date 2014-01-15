@@ -63,7 +63,8 @@ Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
 
-#### options.runbower
+
+#### options.runBower
 Type: `Boolean`  
 Default value: `true`
 

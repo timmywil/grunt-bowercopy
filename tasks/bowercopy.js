@@ -233,12 +233,13 @@ module.exports = function (grunt) {
 			var options = this.options({
 				srcPrefix: bower.config.directory,
 				destPrefix: '',
-				runbower: true,
+				runBower: true,
 				clean: false,
 				copyOptions: {}
 			});
 
-			if (options.runbower) {
+			// Back-compat. Non-camelcase
+			if (options.runBower || options.runbower) {
 				// Run `bower install`
 				var done = this.async();
 
