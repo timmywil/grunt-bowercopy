@@ -115,11 +115,10 @@ module.exports = function (grunt) {
 		// Only print message when all targets have been run
 		if (++numRuns === getNumTargets()) {
 			if (unused.length) {
-				if (!options.clean && options.report) {
-					log.writeln('Some bower components are not configured: ', unused);
-				}
 				if (options.clean) {
 					log.error('Could not clean directory. Some bower components are not configured: ', unused);
+				} else if (options.report) {
+					log.writeln('Some bower components are not configured: ', unused);
 				}
 			} else {
 				// Remove the bower_components directory as it's no longer needed
