@@ -200,6 +200,7 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
+- **0.7.1** *1-20-2014* Fix Windows issue with path seperators.
 - **0.7.0** *1-13-2014* Add `options.report`. Camelcase `options.runBower`. Fix an issue with a source format (gh-9).
 - **0.6.0** *1-13-2014* Add glob matcher.
 - **0.5.0** *12-31-2013* Add `options.copyOptions` to be passed along to `grunt.file.copy` and fix issue with local-only bower usage.
