@@ -19,7 +19,8 @@ module.exports = function (grunt) {
 	// Modules
 	var path = require('path'),
 		bower = require('bower'),
-		glob = require('glob');
+		glob = require('glob'),
+		sep = path.sep;
 
 	// Get all modules
 	var bowerConfig;
@@ -94,8 +95,8 @@ module.exports = function (grunt) {
 		return _.filter(modules, function(module) {
 			return !_.some(files, function(file) {
 				// Look for the module name somewhere in the source path
-				return path.join('/', options.srcPrefix, file.src, '/')
-					.indexOf('/' + module + '/') > -1;
+				return path.join(sep, options.srcPrefix, file.src, sep)
+					.indexOf(sep + module + sep) > -1;
 			});
 		});
 	}
@@ -148,7 +149,7 @@ module.exports = function (grunt) {
 					// was specified
 					dest != null ?
 						dest :
-						path.dirname(source).replace(options.srcPrefix + '/', ''),
+						path.dirname(source).replace(options.srcPrefix + sep, ''),
 					path.basename(source)
 				)
 			};
