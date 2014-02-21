@@ -17,4 +17,4 @@ Always run tests before submitting a pull request, unless it is just a documenta
 
 ### Development workflow
 
-There is a watch task defined in the Gruntfile to lint and test as you go. Simply run `grunt watch` to start.
+There is a watch task defined in the Gruntfile to lint and test as you go. Run `grunt watch` to start.
