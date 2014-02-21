@@ -76,6 +76,10 @@ module.exports = function (grunt) {
 				// in which to place the matching files
 				src: 'lodash/**/*.js'
 			},
+			dest_folder: {
+				src: 'lodash/dist/lodash.js',
+				dest: 'tmp/js/libs/lodash_folder'
+			},
 			clean: {
 				options: {
 					clean: true,

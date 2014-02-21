@@ -162,7 +162,12 @@ grunt.initConfig({
 		folders: {
 			files: {
 				// Note: when copying folders, the destination (key) will be used as the location for the folder
-				'public/js/libs/lodash': 'lodash'
+				'public/js/libs/lodash': 'lodash',
+				// The destination can also be a folder
+				// Note: if the basename of the location does not have a period('.'),
+				// it is assumed that you'd like a folder to be created if none exists
+				// and the source filename will be used
+				'public/js/libs': 'lodash/dist/lodash.js'
 			}
 		},
 		// Glob patterns

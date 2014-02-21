@@ -68,6 +68,13 @@ exports.bowercopy = {
 
 		test.done();
 	},
+	dest_folder: function(test) {
+		test.expect(1);
+
+		test.ok(grunt.file.exists('tmp/js/libs/lodash_folder/lodash.js'));
+
+		test.done();
+	},
 	clean: function(test) {
 		test.expect(1);
 

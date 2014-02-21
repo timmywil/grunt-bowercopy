@@ -33,6 +33,9 @@ module.exports = function (grunt) {
 	var numTargets;
 	var numRuns = 0;
 
+	// Regex
+	var rperiod = /\./;
+
 	/**
 	 * Retrieve the number of targets from the grunt config
 	 * @returns {number|undefined} Returns the number of targets,
@@ -186,6 +189,9 @@ module.exports = function (grunt) {
 				log.writeln(src + ' -> ' + dest);
 			// Copy files
 			} else if (grunt.file.exists(src)) {
+				if (!rperiod.test(path.basename(dest))) {
+					dest = path.join(dest, path.basename(src));
+				}
 				grunt.file.copy(src, dest, options.copyOptions);
 				log.writeln(src + ' -> ' + dest);
 			// Glob
