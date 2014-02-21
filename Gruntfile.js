@@ -19,8 +19,7 @@ module.exports = function (grunt) {
 				'<%= nodeunit.tests %>'
 			],
 			options: {
-				jshintrc: '.jshintrc',
-				reporter: require('jshint-stylish')
+				jshintrc: '.jshintrc'
 			}
 		},
 
