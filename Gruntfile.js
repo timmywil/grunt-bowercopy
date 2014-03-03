@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 		bowercopy: {
 			default_options: {
 				files: {
-					'tmp/js/libs/jquery.js': 'jquery/jquery.js',
+					'tmp/js/libs/jquery.js': 'jquery/dist/jquery.js',
 					'tmp/js/plugins/jquery.panzoom.js': 'jquery.panzoom/dist/jquery.panzoom.js'
 				}
 			},

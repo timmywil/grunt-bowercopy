@@ -11,7 +11,8 @@ module.exports = function (grunt) {
 	// Logging
 	var log = grunt.log,
 		verbose = grunt.verbose,
-		fatal = grunt.fatal;
+		fatal = grunt.fatal,
+		warn = grunt.warn;
 
 	// Utilities
 	var _ = require('lodash');
@@ -200,6 +201,8 @@ module.exports = function (grunt) {
 				if (matches.length) {
 					matches = convertMatches(matches, options, file.dest);
 					copy(matches, options);
+				} else {
+					warn(src + ' was not found');
 				}
 			}
 		});

@@ -24,7 +24,7 @@
   "devDependencies": {
     "backbone": "1.1.0",
     "chosen": "1.0.0",
-    "jquery": "2.0.3",
+    "jquery": "2.1.0",
     "jquery.panzoom": "1.8.1",
     "jquery-ui": "jquery/jquery-ui#c0ab71056b936627e8a7821f03c044aec6280a40",
     "lodash": "2.4.1"
