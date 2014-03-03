@@ -1,7 +1,7 @@
 /*
  * grunt-bowercopy
  *
- * Copyright (c) 2013 Timmy Willison
+ * Copyright (c) 2014 Timmy Willison
  * Licensed under the MIT license.
  */
 

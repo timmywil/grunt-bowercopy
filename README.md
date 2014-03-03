@@ -216,4 +216,4 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 - **0.1.0** *11-19-2013* First Release
 
 ## License
-Copyright (c) 2013 Timmy Willison. Licensed under the MIT license.
+Copyright (c) 2014 Timmy Willison. Licensed under the MIT license.
