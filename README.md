@@ -205,15 +205,16 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
-- **0.8.0** *2-21-2014* Adds support for folders for destinations when copying individual files
-- **0.7.1** *1-20-2014* Fix Windows issue with path seperators.
-- **0.7.0** *1-13-2014* Add `options.report`. Camelcase `options.runBower`. Fix an issue with a source format (gh-9).
-- **0.6.0** *1-13-2014* Add glob matcher.
-- **0.5.0** *12-31-2013* Add `options.copyOptions` to be passed along to `grunt.file.copy` and fix issue with local-only bower usage.
-- **0.4.0** *12-3-2013* Update grunt to 0.4.2. Add the ability to copy folders.
-- **0.3.0** *12-2-2013* Add clean option for removing the bower components directory on full task completion.
-- **0.2.0** *11-19-2013* Report any bower components not configured to be copied when all targets are run together.
-- **0.1.0** *11-19-2013* First Release
+- **0.9.0** (*3-3-2014*) Warn if a source location was not found.
+- **0.8.0** (*2-21-2014*) Adds support for folders for destinations when copying individual files.
+- **0.7.1** (*1-20-2014*) Fix Windows issue with path seperators.
+- **0.7.0** (*1-13-2014*) Add `options.report`. Camelcase `options.runBower`. Fix an issue with a source format (gh-9).
+- **0.6.0** (*1-13-2014*) Add glob matcher.
+- **0.5.0** (*12-31-2013*) Add `options.copyOptions` to be passed along to `grunt.file.copy` and fix issue with local-only bower usage.
+- **0.4.0** (*12-3-2013*) Update grunt to 0.4.2. Add the ability to copy folders.
+- **0.3.0** (*12-2-2013*) Add clean option for removing the bower components directory on full task completion.
+- **0.2.0** (*11-19-2013*) Report any bower components not configured to be copied when all targets are run together.
+- **0.1.0** (*11-19-2013*) First Release
 
 ## License
 Copyright (c) 2014 Timmy Willison. Licensed under the MIT license.
