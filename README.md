@@ -110,7 +110,7 @@ grunt.initConfig({
 				// Keys are destinations (prefixed with `options.destPrefix`)
 				// Values are sources (prefixed with `options.srcPrefix`); One source per destination
 				// e.g. 'bower_components/chai/lib/chai.js' will be copied to 'test/js/libs/chai.js'
-				'libs/chai.js': 'chai/lib/chai.js': ,
+				'libs/chai.js': 'chai/lib/chai.js',
 				'mocha/mocha.js': 'libs/mocha/mocha.js',
 				'mocha/mocha.css': 'libs/mocha/mocha.css'
 			}
