@@ -205,6 +205,7 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
+- **1.0.1** (*6-12-2014*) Updated node modules
 - **1.0.0** (*3-26-2014*) Version 1
 - **0.9.0** (*3-3-2014*) Warn if a source location was not found.
 - **0.8.0** (*2-21-2014*) Adds support for folders for destinations when copying individual files.
