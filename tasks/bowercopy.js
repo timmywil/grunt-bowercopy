@@ -91,6 +91,9 @@ module.exports = function (grunt) {
 	 */
 	function filterRepresented(modules, files, options) {
 		return _.filter(modules, function(module) {
+			if (options.ignore.indexOf(module) !== -1) {
+				return false;
+			}
 			return !_.some(files, function(file) {
 				// Look for the module name somewhere in the source path
 				return path.join(sep, options.srcPrefix, file.src, sep)
@@ -250,6 +253,7 @@ module.exports = function (grunt) {
 			var options = this.options({
 				srcPrefix: bower.config.directory,
 				destPrefix: '',
+				ignore: [],
 				report: true,
 				runBower: true,
 				clean: false,
