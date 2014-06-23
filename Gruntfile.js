@@ -84,6 +84,11 @@ module.exports = function (grunt) {
 			dest_folder: {
 				src: 'lodash/dist/lodash.js',
 				dest: 'tmp/js/libs/lodash_folder'
+			},
+			// Main pragma
+			main: {
+				src: 'jquery.minlight:main',
+				dest: 'tmp/js/plugins/'
 			}
 		},
 

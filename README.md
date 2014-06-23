@@ -202,6 +202,13 @@ grunt.initConfig({
 			// For example, one of the files copied here is
 			// 'lodash/dist/lodash.js' -> 'public/js/libs/lodash/dist/lodash.js'
 			src: 'lodash/**/*.js'
+		},
+		// Main pragma
+		// Adding :main to the end of a source path will retrieve the main file(s) for that package
+		// If the main property is not specified by a package, bowercopy will fail
+		main: {
+			src: 'jquery.minlight:main',
+			dest: 'public/js/plugins/'
 		}
 	}
 });

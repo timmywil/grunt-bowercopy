@@ -35,6 +35,7 @@ module.exports = function (grunt) {
 
 	// Regex
 	var rperiod = /\./;
+	var rmain = /^([^:]+):main$/;
 
 	/**
 	 * Retrieve the number of targets from the grunt config
@@ -91,12 +92,12 @@ module.exports = function (grunt) {
 	 */
 	function filterRepresented(modules, files, options) {
 		return _.filter(modules, function(module) {
-			if (options.ignore.indexOf(module) !== -1) {
+			if (options.ignore.indexOf(module) > -1) {
 				return false;
 			}
 			return !_.some(files, function(file) {
 				// Look for the module name somewhere in the source path
-				return path.join(sep, options.srcPrefix, file.src, sep)
+				return path.join(sep, options.srcPrefix, file.src.replace(rmain, '$1'), sep)
 					.indexOf(sep + module + sep) > -1;
 			});
 		});
@@ -139,7 +140,7 @@ module.exports = function (grunt) {
 	 * Convert an array of files sources to our format
 	 * @param {Array} files
 	 * @param {Object} options
-	 * @param {String} [dest] A folder destination for all of these sources
+	 * @param {string} [dest] A folder destination for all of these sources
 	 */
 	function convertMatches(files, options, dest) {
 		return files.map(function(source) {
@@ -153,6 +154,27 @@ module.exports = function (grunt) {
 						path.dirname(source).replace(options.srcPrefix + sep, ''),
 					path.basename(source)
 				)
+			};
+		});
+	}
+
+	/**
+	 * Get the main files for a particular package
+	 * @param {string} src
+	 * @param {Object} options
+	 * @param {string} [dest]
+	 * @returns {Array} Returns an array of file locations from the main property
+	 */
+	function getMain(src, options, dest) {
+		var meta = grunt.file.readJSON(path.join(src, '.bower.json'));
+		if (!meta.main) {
+			fail.fatal('No main property specified by ' + path.normalize(src.replace(options.srcPrefix, '')));
+		}
+		var files = typeof meta.main === 'string' ? [meta.main] : meta.main;
+		return files.map(function(source) {
+			return {
+				src: path.join(src, source),
+				dest: dest
 			};
 		});
 	}
@@ -182,6 +204,13 @@ module.exports = function (grunt) {
 				dest = path.join(options.destPrefix, dest);
 			}
 
+			// Copy main files if :main is specified
+			var main = rmain.exec(src);
+			if (main) {
+				copied = copy(getMain(main[1], options, dest), options) || copied;
+				return;
+			}
+
 			// Copy folders
 			if (grunt.file.isDir(src)) {
 				grunt.file.recurse(src, function(abspath, rootdir, subdir, filename) {
@@ -206,7 +235,7 @@ module.exports = function (grunt) {
 				var matches = glob.sync(src);
 				if (matches.length) {
 					matches = convertMatches(matches, options, file.dest);
-					copied = copied || copy(matches, options);
+					copied = copy(matches, options) || copied;
 				} else {
 					log.warn(src + ' was not found');
 				}

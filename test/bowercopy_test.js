@@ -81,5 +81,12 @@ exports.bowercopy = {
 		test.ok(!grunt.file.exists('bower_modules'), 'Remove bower_modules folder');
 
 		test.done();
+	},
+	main: function(test) {
+		test.expect(1);
+
+		test.ok(grunt.file.exists('tmp/js/plugins/jquery.minlight.js'), 'Minlight copied to plugins directory');
+
+		test.done();
 	}
 };
