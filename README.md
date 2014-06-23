@@ -221,6 +221,7 @@ See the [CONTRIBUTING.md](https://github.com/timmywil/grunt-bowercopy/blob/maste
 
 ## Release History
 
+- **1.1.0** (*6-23-2014*) Add :main pragma and `ignore` option.
 - **1.0.1** (*6-12-2014*) Updated node modules
 - **1.0.0** (*3-26-2014*) Version 1
 - **0.9.0** (*3-3-2014*) Warn if a source location was not found.

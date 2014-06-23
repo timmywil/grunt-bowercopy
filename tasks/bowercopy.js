@@ -162,7 +162,7 @@ module.exports = function (grunt) {
 	 * Get the main files for a particular package
 	 * @param {string} src
 	 * @param {Object} options
-	 * @param {string} [dest]
+	 * @param {string} dest
 	 * @returns {Array} Returns an array of file locations from the main property
 	 */
 	function getMain(src, options, dest) {
