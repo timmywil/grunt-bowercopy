@@ -11,8 +11,7 @@ module.exports = function (grunt) {
 	// Logging
 	var log = grunt.log,
 		verbose = grunt.verbose,
-		fatal = grunt.fatal,
-		warn = grunt.warn;
+		fail = grunt.fail;
 
 	// Utilities
 	var _ = require('lodash');
@@ -160,8 +159,10 @@ module.exports = function (grunt) {
 	 *  files format: [{ src: '', dest: '' }, ...]
 	 * @param {Array} files
 	 * @param {Object} options
+	 * @returns {boolean} Returns whether anything was copied for the list of files
 	 */
 	function copy(files, options) {
+		var copied = false;
 		files.forEach(function(file) {
 			var src = file.src;
 			// Use source for destination if no destionation is available
@@ -181,6 +182,7 @@ module.exports = function (grunt) {
 			// Copy folders
 			if (grunt.file.isDir(src)) {
 				grunt.file.recurse(src, function(abspath, rootdir, subdir, filename) {
+					copied = true;
 					grunt.file.copy(
 						abspath,
 						path.join(dest, subdir || '', filename),
@@ -190,6 +192,7 @@ module.exports = function (grunt) {
 				log.writeln(src + ' -> ' + dest);
 			// Copy files
 			} else if (grunt.file.exists(src)) {
+				copied = true;
 				if (!rperiod.test(path.basename(dest))) {
 					dest = path.join(dest, path.basename(src));
 				}
@@ -200,12 +203,13 @@ module.exports = function (grunt) {
 				var matches = glob.sync(src);
 				if (matches.length) {
 					matches = convertMatches(matches, options, file.dest);
-					copy(matches, options);
+					copied = copied || copy(matches, options);
 				} else {
-					warn(src + ' was not found');
+					log.warn(src + ' was not found');
 				}
 			}
 		});
+		return copied;
 	}
 
 	/**
@@ -216,7 +220,7 @@ module.exports = function (grunt) {
 	 * @param {Array} files
 	 * @param {Object} options
 	 */
-	function run(files, options) {
+	var run = function(files, options) {
 		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
 		verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
@@ -224,12 +228,13 @@ module.exports = function (grunt) {
 		files = convert(files);
 
 		// Copy files
-		copy(files, options);
-		log.ok('Bower components copied to specified locations');
+		if (!copy(files, options)) {
+			fail.warn('Nothing was copied for the "' + this.target + '" target');
+		}
 
 		// Report if any dependencies have not been copied
 		ensure(files, options);
-	}
+	};
 
 	grunt.registerMultiTask(
 		'bowercopy',
@@ -238,6 +243,7 @@ module.exports = function (grunt) {
 			'over to their specified file locations'
 		].join(' '),
 		function bowercopy() {
+			var self = this;
 			var files = this.files;
 
 			// Options
@@ -258,13 +264,13 @@ module.exports = function (grunt) {
 				bower.commands.install().on('log', function(result) {
 					log.writeln(['bower', result.id.cyan, result.message].join(' '));
 				}).on('error', function(code) {
-					fatal(code);
+					fail.fatal(code);
 				}).on('end', function() {
-					run(files, options);
+					run.call(self, files, options);
 					done();
 				});
 			} else {
-				run(files, options);
+				run.call(self, files, options);
 			}
 		}
 	);

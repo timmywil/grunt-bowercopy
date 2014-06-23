@@ -31,6 +31,10 @@ module.exports = function (grunt) {
 
 		// Configuration to be run (and then tested)
 		bowercopy: {
+			options: {
+				clean: true,
+				report: false
+			},
 			default_options: {
 				files: {
 					'tmp/js/libs/jquery.js': 'jquery/dist/jquery.js',
@@ -79,12 +83,6 @@ module.exports = function (grunt) {
 			dest_folder: {
 				src: 'lodash/dist/lodash.js',
 				dest: 'tmp/js/libs/lodash_folder'
-			},
-			clean: {
-				options: {
-					clean: true,
-					report: false
-				}
 			}
 		},
 
