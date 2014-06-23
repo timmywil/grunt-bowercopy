@@ -63,17 +63,19 @@ Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
 
+#### options.runBower
+Type: `Boolean`  
+Default value: `true`
+
+Run `bower install` in conjunction with the `bowercopy` task.
+
 #### options.report
 Type: `Boolean`  
 Default value: `true`
 
 Report any modules in your bower.json that have not been configured to copy at least one file with `bowercopy`.
 
-#### options.runBower
-Type: `Boolean`  
-Default value: `true`
-
-Run `bower install` in conjunction with the `bowercopy` task.
+**Note:** *The clean option reports the same thing, so this option is ignored if clean is true.*
 
 #### options.clean
 Type: `Boolean`  
@@ -85,6 +87,13 @@ Removes the bower components directory on completion. The folder path that is re
 
   1. All task targets are run (i.e. grunt-bowercopy was run with the command `grunt bowercopy` and not `grunt bowercopy:target`).
   2. At least one thing was copied from each bower component (grunt-bowercopy tracks this for you).
+
+#### options.ignore
+Type: `Array`  
+Default value: `[]`
+
+Using the `report` or `clean` option, `grunt-bowercopy` tracks which dependencies have at least one file copied.
+The `ignore` option can be used to specify any bower dependencies that aren't copied, but need to be defined in your `bower.json` anyway.
 
 #### options.copyOptions
 Type: `Object`  
