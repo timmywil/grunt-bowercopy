@@ -63,6 +63,12 @@ Default value: `''`
 
 `destPrefix` will be used as the prefix for destinations.
 
+#### options.ignore
+Type: `Array`  
+Default value: `[]`
+
+`ignore` can be specified for any bower dependencies that aren't copied, but need to be defined anyway.
+
 #### options.report
 Type: `Boolean`  
 Default value: `true`

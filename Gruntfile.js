@@ -33,7 +33,8 @@ module.exports = function (grunt) {
 		bowercopy: {
 			options: {
 				clean: true,
-				report: false
+				report: false,
+				ignore: ['jquery-1.x']
 			},
 			default_options: {
 				files: {
