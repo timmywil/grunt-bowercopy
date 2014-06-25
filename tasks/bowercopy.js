@@ -75,6 +75,9 @@ module.exports = function (grunt) {
 			}
 
 			file.src.forEach(function(source) {
+				if(typeof source === 'function') {
+					source = source();
+				}
 				converted.push({
 					src: source,
 					dest: dest
