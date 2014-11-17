@@ -232,7 +232,7 @@ module.exports = function (grunt) {
 				log.writeln(src + ' -> ' + dest);
 			// Glob
 			} else {
-				var matches = glob.sync(src);
+				var matches = glob.sync(file.src, { cwd: options.srcPrefix });
 				if (matches.length) {
 					matches = convertMatches(matches, options, file.dest);
 					copied = copy(matches, options) || copied;

@@ -61,10 +61,11 @@ exports.bowercopy = {
 		test.done();
 	},
 	glob: function(test) {
-		test.expect(2);
+		test.expect(3);
 
-		test.ok(grunt.file.exists('tmp/js/libs/lodash/dist/lodash.js'), 'Copy lodash files with glob src');
-		test.ok(grunt.file.exists('tmp/js/libs/lodash/dist/lodash.compat.js'), 'Copy lodash files with glob src');
+		test.ok(grunt.file.exists('tmp/js/libs/lodash/lodash.js'), 'Copy lodash files with glob src');
+		test.ok(grunt.file.exists('tmp/js/libs/lodash/lodash.compat.js'), 'Copy lodash files with glob src');
+		test.ok(!grunt.file.exists('tmp/js/libs/lodash/lodash.min.js'), 'Copy lodash files without including min files');
 
 		test.done();
 	},

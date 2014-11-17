@@ -74,12 +74,13 @@ module.exports = function (grunt) {
 			},
 			glob: {
 				options: {
-					destPrefix: 'tmp/js/libs'
+					srcPrefix: 'bower_modules/lodash/dist',
+					destPrefix: 'tmp/js/libs/lodash'
 				},
 				// When using glob for source files,
 				// the destination will always be used as a FOLDER
 				// in which to place the matching files
-				src: 'lodash/**/*.js'
+				src: ['!**/*.min.js']
 			},
 			dest_folder: {
 				src: 'lodash/dist/lodash.js',
