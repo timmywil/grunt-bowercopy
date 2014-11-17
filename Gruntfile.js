@@ -10,8 +10,21 @@
 module.exports = function (grunt) {
 	// Load all npm grunt tasks
 	require('load-grunt-tasks')(grunt);
+	var bumpFiles = ['package.json', 'bower.json'];
 
 	grunt.initConfig({
+		bump: {
+			options: {
+				// The bower.json file is private,
+				// but we still update the version
+				files: bumpFiles,
+				commitFiles: bumpFiles,
+				commitMessage: 'Release %VERSION%',
+				pushTo: 'origin',
+				tagName: '%VERSION%',
+				push: false
+			}
+		},
 		jshint: {
 			all: [
 				'Gruntfile.js',
