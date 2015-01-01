@@ -30,7 +30,7 @@ module.exports = function (grunt) {
 	}
 	
 	// Get all modules
-	var bowerConfig = grunt.file.readJSON('bower.json');
+	var bowerConfig = grunt.file.readJSON(bowerConfigPath);
 	var allModules = Object.keys(
 		_.extend({}, bowerConfig.dependencies, bowerConfig.devDependencies)
 	);
