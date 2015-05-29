@@ -79,7 +79,7 @@ module.exports = function (grunt) {
 			},
 			images: {
 				options: {
-					srcPrefix: 'bower_modules/chosen/public',
+					srcPrefix: 'bower_modules/chosen',
 					destPrefix: 'tmp/images/chosen'
 				},
 				// Test source arrays
