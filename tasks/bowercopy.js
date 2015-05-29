@@ -237,7 +237,7 @@ module.exports = function (grunt) {
 					matches = convertMatches(matches, options, file.dest);
 					copied = copy(matches, options) || copied;
 				} else {
-					log.warn(src + ' was not found');
+					fail.warn(src + ' was not found');
 				}
 			}
 		});
