@@ -287,7 +287,7 @@ module.exports = function (grunt) {
 
 			// Options
 			var options = this.options({
-				srcPrefix: bower.config.directory,
+				srcPrefix: path.join(bower.config.cwd, bower.config.directory),
 				destPrefix: '',
 				ignore: [],
 				report: true,
