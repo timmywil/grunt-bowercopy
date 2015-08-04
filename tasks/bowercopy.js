@@ -284,10 +284,18 @@ module.exports = function (grunt) {
 		function bowercopy() {
 			var self = this;
 			var files = this.files;
+			
+			var srcPrefix = '';
+			if (bower.config.directory && grunt.file.isPathAbsolute(bower.config.directory)) {
+				srcPrefix = bower.config.directory;
+			}
+			else {
+				srcPrefix = path.join(bower.config.cwd, bower.config.directory);
+			}
 
 			// Options
 			var options = this.options({
-				srcPrefix: path.join(bower.config.cwd, bower.config.directory),
+				srcPrefix: srcPrefix,
 				destPrefix: '',
 				ignore: [],
 				report: true,
