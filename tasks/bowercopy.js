@@ -23,10 +23,13 @@ module.exports = function (grunt) {
 		sep = path.sep;
 
 	// Get path to bower config file
-	var bowerrc = grunt.file.readJSON('.bowerrc');
 	var bowerConfigPath = 'bower.json';
-	if (bowerrc.cwd) {
-		bowerConfigPath = path.join(bowerrc.cwd, bowerConfigPath);
+	var bowerrcPath = '.bowerrc';
+	if (grunt.file.exists(bowerrcPath)){
+		var bowerrc = grunt.file.readJSON(bowerrcPath);
+		if (bowerrc.cwd) {
+			bowerConfigPath = path.join(bowerrc.cwd, bowerConfigPath);
+		}
 	}
 
 	// Get all modules
