@@ -215,6 +215,13 @@ module.exports = function (grunt) {
 			// Copy main files if :main is specified
 			var main = rmain.exec(src);
 			if (main) {
+				//Trim :main from dest strings
+				//(required if the user did not also provide an explicit dest)
+				var temp = rmain.exec(dest);
+				if (temp) {
+					dest = temp[1];
+				}
+
 				copied = copy(getMain(main[1], options, dest), options) || copied;
 				return;
 			}

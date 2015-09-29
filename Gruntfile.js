@@ -103,6 +103,21 @@ module.exports = function (grunt) {
 			main: {
 				src: 'jquery.minlight:main',
 				dest: 'tmp/js/plugins/'
+			},
+			// Main pragma with complicated destPrefix
+			main_with_complex_dest_prefix: {
+				options: {
+					destPrefix: 'tmp/js/main_with_complex_dest_prefix'
+				},
+				src: 'angular:main',
+				dest: 'angular'
+			},
+			// Main pragma with no dest (so bowercopy uses the src as the dest)
+			main_with_no_dest: {
+				options: {
+					destPrefix: 'tmp/js/libs'
+				},
+				src: 'angular:main'
 			}
 		},
 
