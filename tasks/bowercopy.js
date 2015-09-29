@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 
 	// Regex
 	var rperiod = /\./;
-	var rmain = /^([^:]+):main$/;
+	var rmain = /^(.+):main$/;
 
 	/**
 	 * Retrieve the number of targets from the grunt config
