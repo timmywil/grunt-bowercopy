@@ -89,5 +89,19 @@ exports.bowercopy = {
 		test.ok(grunt.file.exists('tmp/js/plugins/jquery.minlight.js'), 'Minlight copied to plugins directory');
 
 		test.done();
+	},
+	main_with_complex_dest_prefix: function (test) {
+		test.expect(1);
+
+		test.ok(grunt.file.exists('tmp/js/main_with_complex_dest_prefix/angular/angular.js'), 'Angular copied to plugins directory');
+		
+		test.done();
+	},
+	main_with_no_dest: function (test) {
+		test.expect(1);
+
+		test.ok(grunt.file.exists('tmp/js/libs/angular/angular.js'), 'Angular copied to plugins directory');
+		
+		test.done();
 	}
 };

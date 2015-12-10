@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 
 	// Regex
 	var rperiod = /\./;
-	var rmain = /^([^:]+):main$/;
+	var rmain = /^(.+):main$/;
 
 	/**
 	 * Retrieve the number of targets from the grunt config
@@ -196,10 +196,11 @@ module.exports = function (grunt) {
 	function copy(files, options) {
 		var copied = false;
 		files.forEach(function(file) {
-			var src = file.src;
-			// Use source for destination if no destionation is available
+			// Normalize input
+			var src = path.normalize(file.src);
+			// Use source for destination if no destination is available
 			// This is done here so globbing can use the original dest
-			var dest = file.dest || src;
+			var dest = path.normalize(file.dest || src);
 
 			// Add source prefix if not already added
 			if (src.indexOf(options.srcPrefix) !== 0) {
@@ -214,6 +215,13 @@ module.exports = function (grunt) {
 			// Copy main files if :main is specified
 			var main = rmain.exec(src);
 			if (main) {
+				//Trim :main from dest strings
+				//(required if the user did not also provide an explicit dest)
+				var temp = rmain.exec(dest);
+				if (temp) {
+					dest = temp[1];
+				}
+
 				copied = copy(getMain(main[1], options, dest), options) || copied;
 				return;
 			}
@@ -260,6 +268,10 @@ module.exports = function (grunt) {
 	 * @param {Object} options
 	 */
 	var run = function(files, options) {
+		// Normalize paths
+		options.srcPrefix = path.normalize(options.srcPrefix);
+		options.destPrefix = path.normalize(options.destPrefix);
+
 		verbose.writeln('Using srcPrefix: ' + options.srcPrefix);
 		verbose.writeln('Using destPrefix: ' + options.destPrefix);
 
