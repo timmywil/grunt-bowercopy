@@ -1,6 +1,6 @@
 {
   "name": "grunt-bowercopy",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Scrupulously manage file locations for bower dependencies.",
   "homepage": "https://github.com/timmywil/grunt-bowercopy",
   "repository": {
