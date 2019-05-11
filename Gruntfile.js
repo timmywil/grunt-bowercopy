@@ -93,7 +93,7 @@ module.exports = function (grunt) {
 				// When using glob for source files,
 				// the destination will always be used as a FOLDER
 				// in which to place the matching files
-				src: ['!**/*.min.js']
+				src: ['**/*.min.js']
 			},
 			dest_folder: {
 				src: 'lodash/dist/lodash.js',
