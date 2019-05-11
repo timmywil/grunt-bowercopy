@@ -61,11 +61,10 @@ exports.bowercopy = {
 		test.done();
 	},
 	glob: function(test) {
-		test.expect(3);
+		test.expect(2);
 
-		test.ok(grunt.file.exists('tmp/js/libs/lodash/lodash.js'), 'Copy lodash files with glob src');
-		test.ok(grunt.file.exists('tmp/js/libs/lodash/lodash.compat.js'), 'Copy lodash files with glob src');
-		test.ok(!grunt.file.exists('tmp/js/libs/lodash/lodash.min.js'), 'Copy lodash files without including min files');
+		test.ok(!grunt.file.exists('tmp/js/libs/lodash/lodash.js'), 'Copy lodash files without including unminified files');
+		test.ok(grunt.file.exists('tmp/js/libs/lodash/lodash.min.js'), 'Copy lodash files with glob src');
 
 		test.done();
 	},
@@ -94,14 +93,14 @@ exports.bowercopy = {
 		test.expect(1);
 
 		test.ok(grunt.file.exists('tmp/js/main_with_complex_dest_prefix/angular/angular.js'), 'Angular copied to plugins directory');
-		
+
 		test.done();
 	},
 	main_with_no_dest: function (test) {
 		test.expect(1);
 
 		test.ok(grunt.file.exists('tmp/js/libs/angular/angular.js'), 'Angular copied to plugins directory');
-		
+
 		test.done();
 	}
 };
