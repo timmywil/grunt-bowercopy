@@ -39,7 +39,7 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-nodeunit": "^2.0.0",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-jsonlint": "^1.0.4",
+    "grunt-jsonlint": "^2.0.0",
     "load-grunt-tasks": "^5.0.0"
   },
   "scripts": {
