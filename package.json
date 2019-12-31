@@ -42,6 +42,9 @@
     "grunt-jsonlint": "^2.0.0",
     "load-grunt-tasks": "^5.1.0"
   },
+  "resolutions": {
+    "diff": ">=3.5.0"
+  },
   "scripts": {
     "test": "grunt test"
   }
