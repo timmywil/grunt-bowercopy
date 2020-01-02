@@ -3,9 +3,9 @@
 
 > Wrangle those bower dependencies and place each one where it's supposed to be.
 
-- Consistently positions your dependencies where you want them in your repository.
-- Conveniently facilitates [tracking your dependencies](http://addyosmani.com/blog/checking-in-front-end-dependencies/) without committing the entire Bower components folder.
-- Has the potential to reduce build times dramatically. For instance, if you were building a particular source folder for your webapp or website (compiling, concatenating, and minifying JavaScript and CSS), you were forced to include the entire `bower_components` directory in your build to make it work. This plugin clears the detritus.
+- Automatically position your dependencies where you want them in your repository.
+- [Track your dependencies](http://addyosmani.com/blog/checking-in-front-end-dependencies/) without committing the entire Bower components folder.
+- Reduce build times by compiling only what you need from the `bower_components` directory.
 
 ## Workflow
 
